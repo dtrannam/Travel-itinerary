@@ -9,18 +9,18 @@
         <link rel="stylesheet" href="">
     </head>
     <body>
-        <form action="POST" sync></form>
+        <form action="/" method="POST"></form>
         
          <!-- User Input -->
-        <label for="label">Enter a name:</label>
+        <label for="label">Enter a name:    </label>
         <input type="text" id='name' maxlength="10">
+        <br>
         <label for="location">Enter a location:</label>
         <input type="text" id="location" maxlength="15">
-        <label for="days">Amount of days (Up to 14):</label>
-        <input type="number" id='days' min='1' max="14">
+        <br>
         <label for="about">Enter a short description about this plan:</label>
         <input type="text" maxlength="280">
-
+        <br>
         <!-- Predefined Selection for filtering -->
         <label for="traveler">What type of travelers?</label>
         <select name="traveler" id="traveler">
@@ -29,12 +29,25 @@
             <option value="Family">Family Friend - For trips with the family who may not be as adventerous</option>
             <option value="Friends">Group Trip - The more the merrier! </option>
         </select>
+        <br>
         <label for="focus">What's the theme of this trip?</label>
         <select name="focus" id="focus">
             <option value="nature">Nature - From national parks to raging rivers!</option>
             <option value="resort">Resort - </option>
         </select>
-
-        <script src="" async defer></script>
+        <br>
+        <label for="days">Amount of day (Up to 10):</label>
+        <select name="days" id='days'>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+        <script src="Scripts/create.js" async defer></script>
     </body>
 </html>
