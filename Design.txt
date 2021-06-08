@@ -1,0 +1,26 @@
+Single Item Page Viewer:
+
+Location: string 
+
+Recommended Days: int
+Best for: [Solo, Couples, Friends, Family-Friendly]
+Theme: string -> [Nature, Road Trip, Beach/Lake, Urban, Mixed]
+About:
+
+Enter email to edit/delete: 
+
+For recommended Days:
+
+Day X
+
+Morning:
+Afternoon:
+Evening: 
+
+
+-----------
+Notes: 
+
+Create Page -> View item Page  - ability to edit or  delete based on email 
+
+View All page -> View Item Page

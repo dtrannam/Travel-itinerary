@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        <form action="POST" sync></form>
+        
+         <!-- User Input -->
+        <label for="label">Enter a name:</label>
+        <input type="text" id='name' maxlength="10">
+        <label for="location">Enter a location:</label>
+        <input type="text" id="location" maxlength="15">
+        <label for="days">Amount of days (Up to 14):</label>
+        <input type="number" id='days' min='1' max="14">
+        <label for="about">Enter a short description about this plan:</label>
+        <input type="text" maxlength="280">
+
+        <!-- Predefined Selection for filtering -->
+        <label for="traveler">What type of travelers?</label>
+        <select name="traveler" id="traveler">
+            <option value="Solo">Solo - For travelers who want to indulge in yourself</option>
+            <option value="Couples">Couples - For romatic getaways with your significant others</option>
+            <option value="Family">Family Friend - For trips with the family who may not be as adventerous</option>
+            <option value="Friends">Group Trip - The more the merrier! </option>
+        </select>
+        <label for="focus">What's the theme of this trip?</label>
+        <select name="focus" id="focus">
+            <option value="nature">Nature - From national parks to raging rivers!</option>
+            <option value="resort">Resort - </option>
+        </select>
+
+        <script src="" async defer></script>
+    </body>
+</html>
