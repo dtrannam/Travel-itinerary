@@ -1,3 +1,15 @@
+----- Steps:
+
+Generate the ID page for a Get Request
+Generate a show all page
+
+Generate the Delete option of an ID page 
+Generate the Update option of an ID page
+
+
+
+
+-----
 Single Item Page Viewer:
 
 Location: string 
