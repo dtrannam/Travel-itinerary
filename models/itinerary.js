@@ -11,3 +11,5 @@ const itinerarySchema = new Schema({
     days: Number,
     items: Array,
 })
+
+module.exports = mongoose.model('itinerary', itinerarySchema)
