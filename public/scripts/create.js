@@ -13,6 +13,7 @@ selectedDays.addEventListener('input', () => {
         let curinput = document.createElement('input')
         curLabel.setAttribute('for', i)
         curinput.setAttribute('id', i)
+        curinput.setAttribute('name', i)
         curLabel.innerText = `Day ${i}:`
         informationtable.appendChild(curLabel)
         informationtable.appendChild(curinput)

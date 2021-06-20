@@ -9,17 +9,17 @@
         <link rel="stylesheet" href="">
     </head>
     <body>
-        <form action="/" method="POST">
+        <form action="/create" method="POST">
         
          <!-- User Input -->
         <label for="label">Enter a title:    </label>
-        <input type="text" id='name' maxlength="10">
+        <input type="text" id='name' maxlength="10" name='name'>
         <br>
         <label for="location">Enter a location:</label>
-        <input type="text" id="location" maxlength="15">
+        <input type="text" id="location" name='location' maxlength="15">
         <br>
         <label for="about">Enter a short description about this plan:</label>
-        <input type="text" maxlength="280">
+        <input type="text" maxlength="280" name='desc'>
         <br>
         <!-- Predefined Selection for filtering -->
         <label for="traveler">What type of travelers?</label>
@@ -53,9 +53,9 @@
         <h3>Information:</h3>
         <section id='daysinput'>
             <label for="1">Day 1</label>
-            <input type="text" id='1'>
+            <input type="text" id='1' name='1'>
         </section>
-        <submit>
+        <input type="submit">
     </form>
     </body>
     <script src="/Scripts/create.js" async defer></script>

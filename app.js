@@ -2,7 +2,7 @@
 const express = require('express');
 const app = express()
 const path = require('path')
-
+app.use(express.json())
 
 // EJS Set Up
 app.set('view engine', 'ejs');
@@ -54,6 +54,11 @@ app.get('/itinerary', async (req, res) => {
 app.get('/create', (req, res) =>{
     res.render('create')
 })
+
+app.post('/create', (req, res) =>
+    console.log(req)
+)
+
 
 // Set Up
 app.listen(3000, () => {
