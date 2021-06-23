@@ -2,7 +2,8 @@
 const express = require('express');
 const app = express()
 const path = require('path')
-app.use(express.json())
+app.use(express.json()) // for parsing application/json
+app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
 // EJS Set Up
 app.set('view engine', 'ejs');
@@ -55,9 +56,30 @@ app.get('/create', (req, res) =>{
     res.render('create')
 })
 
-app.post('/create', (req, res) =>
-    console.log(req)
-)
+app.post('/create', async (req, res) => {
+    try {
+        const newItem = new itinerary(
+            {
+                title: req.body.name,
+                location: req.body.location,
+                description: req.body.desc,
+                traveler: req.body.traveler,
+                theme: req.body.focus,
+                days:req.body.days,
+                items: req.body.items
+            }
+        )
+        await newItem.save(
+            function(err, item) {
+                console.log(item.id)
+                res.send(item.id)
+            }
+        )
+    
+    }  catch (err) {
+    res.render('/')
+    }
+})
 
 
 // Set Up
