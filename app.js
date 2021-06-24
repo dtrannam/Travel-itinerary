@@ -66,7 +66,6 @@ app.get('/create', (req, res) =>{
 
 app.post('/create', async (req, res) => {
     try {
-        console.log(req.body)
         const newItem = new itinerary(
             {
                 title: req.body.name,
@@ -80,8 +79,12 @@ app.post('/create', async (req, res) => {
         )
         await newItem.save(
             function(err, item) {
-                console.log(item.id)
-                res.send(item.id)
+                if (err) {
+                    console.log(err);
+                    res.send('Shits bad yo')
+                } else {
+                    res.send(newItem._id)                
+                }
             }
         )
     
