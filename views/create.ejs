@@ -9,7 +9,9 @@
         <link rel="stylesheet" href="">
     </head>
     <body>
-        <form action="/create" method="POST">
+        <a href="/">Home</a>
+        <a href="/itinerary">View All</a>
+        <form action="/create" method="POST" id='newItem'>
         
          <!-- User Input -->
         <label for="label">Enter a title:    </label>
@@ -53,10 +55,11 @@
         <h3>Information:</h3>
         <section id='daysinput'>
             <label for="1">Day 1</label>
-            <input type="text" id='1' name='1'>
+            <input type="text" id='items' name='items'>
         </section>
         <input type="submit">
     </form>
     </body>
     <script src="/Scripts/create.js" async defer></script>
+    
 </html>

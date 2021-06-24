@@ -23,3 +23,20 @@ selectedDays.addEventListener('input', () => {
     
     
 })
+
+
+const form = document.getElementById('newItem')
+form.addEventListener('submit', function(e) {
+    e.preventDefault()
+    var info = {}
+    const formData = new FormData(this)
+    formData.forEach(function(value, key) {
+        info[key] = value
+    })
+    console.log(info)
+    fetch('/create', {
+        method: 'POST',
+        body: JSON.stringify(info),
+        headers: { 'Content-Type': 'application/json'}
+    })
+})

@@ -2,8 +2,16 @@
 const express = require('express');
 const app = express()
 const path = require('path')
+
+// Dat parsing 
 app.use(express.json()) // for parsing application/json
 app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+
+// Method Override Set Up
+var methodOverride = require('method-override')
+app.use(methodOverride('_method'))
+
+
 
 // EJS Set Up
 app.set('view engine', 'ejs');
@@ -58,6 +66,7 @@ app.get('/create', (req, res) =>{
 
 app.post('/create', async (req, res) => {
     try {
+        console.log(req.body)
         const newItem = new itinerary(
             {
                 title: req.body.name,
@@ -77,10 +86,16 @@ app.post('/create', async (req, res) => {
         )
     
     }  catch (err) {
-    res.render('/')
+    res.render('/itinerary')
     }
 })
+// Delete Item
 
+app.delete('/itinerary/:id', async (req, res) => {
+    const { id } = req.params
+    const remove = await itinerary.findByIdAndDelete(id);
+    res.redirect('/itinerary')
+})
 
 // Set Up
 app.listen(3000, () => {
