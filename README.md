@@ -1,4 +1,4 @@
-# Travel-itinerary
+# Travel-itinerary [In Progress]
 
 Travel Itinerary web application using Express, Node.JS, MongoDB, and EJS
 
