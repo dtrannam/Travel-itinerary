@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Update Page</h1>
+    <form action="">
+        <form action="/" method="POST" id=''>
+            <!-- User Input -->
+           <label for="label">Enter a title:    </label>
+           <input type="text" id='name' maxlength="10" name='name' value='<%= item.title %>'>
+           <br>
+           <label for="location">Enter a location:</label>
+           <input type="text" id="location" name='location' maxlength="15" value='<%= item.location %>'>
+           <br>
+           <label for="about">Enter a short description about this plan:</label>
+           <input type="text" maxlength="280" name='desc' value='<%= item.description %>'>
+           <br>
+           <!-- Predefined Selection for filtering -->
+           <label for="traveler">What type of travelers?  Currently: <%= item.traveler %></label>
+           <select name="traveler" id="traveler">
+               <option value="Solo">Solo - For travelers who want to indulge in yourself</option>
+               <option value="Couples">Couples - For romatic getaways with your significant others</option>
+               <option value="Family">Family Friend - For trips with the family who may not be as adventerous</option>
+               <option value="Friends">Group Trip - The more the merrier! </option>
+               <option value="Mixed">Mixed - Good for anyone! </option>
+           </select>
+           <br>
+           <label for="focus">What's the theme of this trip? Currently: <%= item.theme %></label>
+           <select name="focus" id="focus">
+               <option value="nature">Nature - From national parks to raging rivers!</option>
+               <option value="resort">Resort - </option>
+               <option value="urban">Urban</option>
+           </select>
+           <br>
+           <label for="days">Amount of day (Up to 7) Currently: <%= item.days %>:</label>
+           <select name="days" id='days'>
+               <option value="1">1</option>
+               <option value="2">2</option>
+               <option value="3">3</option>
+               <option value="4">4</option>
+               <option value="5">5</option>
+               <option value="6">6</option>
+               <option value="7">7</option>
+           </select>
+           <br>
+           <br>
+           <h3>New Information:</h3>
+           <section id='daysinput'>
+               <label for="1">Day 1</label>
+               <input type="text" id='items' name='items'>
+           </section>
+           <h3>Current Information:</h3>
+           <% item.items.forEach(element => { %>
+                <%= element %>
+                <br> 
+           <% }) %>
+           <input type="submit">
+       
+    </form>
+    <a href="/itinerary/<%= item._id %>"><button>Return</button></a>
+
+    <script src='/Scripts/create.js'></script>
+</body>
+</html>

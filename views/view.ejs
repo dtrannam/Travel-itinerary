@@ -24,5 +24,8 @@
     <form action="/itinerary/<%= item.id%>?_method=DELETE" method="POST">
         <button>Delete</button>
     </form>
+    <form action="/itinerary/<%= item.id%>/edit" method='PUT'>
+        <button>Update</button>
+    </form>
 </body>
 </html>

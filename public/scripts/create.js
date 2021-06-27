@@ -50,6 +50,6 @@ form.addEventListener('submit', function(e) {
         window.location.href = `/itinerary/${data}`
     }).catch(e => 
         {
-            console.log('errors')
+            console.alert('errors')
         })
 })

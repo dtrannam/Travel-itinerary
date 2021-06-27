@@ -3,7 +3,7 @@ const express = require('express');
 const app = express()
 const path = require('path')
 
-// Dat parsing 
+// Data parsing 
 app.use(express.json()) // for parsing application/json
 app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
@@ -12,12 +12,11 @@ var methodOverride = require('method-override')
 app.use(methodOverride('_method'))
 
 
-
 // EJS Set Up
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'))
 
-// CSS Set Up
+// CSS/JS Set Up
 app.use(express.static('public'));
 
 // Mongoose Set Up
@@ -44,7 +43,7 @@ app.get('/', (req, res) => {
 
 ///// READ
 
-// Show one item example: 60bffd15b5745f122006bbdc
+// Show one item 
 app.get('/itinerary/:id', async (req, res) => {
     const { id } = req.params;
     let item = await itinerary.findById(id)
@@ -53,8 +52,7 @@ app.get('/itinerary/:id', async (req, res) => {
 
 // Show all
 app.get('/itinerary', async (req, res) => {
-    const allItinerary = await itinerary.find({});
-    console.log(allItinerary)
+    const allItinerary = await itinerary.find({})
     res.render('viewall', { allItinerary })
     
 })
@@ -92,6 +90,9 @@ app.post('/create', async (req, res) => {
     res.render('/itinerary')
     }
 })
+
+
+
 // Delete Item
 
 app.delete('/itinerary/:id', async (req, res) => {
@@ -100,29 +101,20 @@ app.delete('/itinerary/:id', async (req, res) => {
     res.redirect('/itinerary')
 })
 
+
+// Update.
+app.get('/itinerary/:id/edit', async (req,res) => {
+    const { id } = req.params
+    const item = await itinerary.findById(id)
+    res.render('edit', { item })
+})
+
+app.put('/')
+
 // Set Up
 app.listen(3000, () => {
      console.log('Port 3000 is working')
 })
 
 
-// Testing
-// app.get('/new', async (req, res) => {
-//     const camp = new itinerary(
-//         {
-//             title: 'Orange County',
-//             location: 'Orange County, CA',
-//             description: '2 days in Orange County! ',
-//             traveler: 'Mixed',
-//             theme: 'Urban',
-//             days: 2,
-//             items: [
-//                 'Disneyland is the the best thing to do in OC!',
-//                 'Huntington Beach - Surf City USA'
-//             ] 
-//         }
-//     )
-//     await camp.save()
-//     res.send(camp)
-// })
 
