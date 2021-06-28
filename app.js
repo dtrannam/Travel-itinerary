@@ -35,11 +35,24 @@ db.once('open', () => {
     console.log('Mongoose is connected')
 });
 
+// API Connection + Fetch
+const fetch = require("node-fetch");
+const apiKey = 'fDJa1LEqLJHwrrXtbFXRwE3jEzeJcq4IwxflP-8hBEL84cPgqvY3UJJQD9mkaoso7cqlDWqmkKAK-BpuelZ12X-vda2b_4kjJIR2tb7J_69lB572MORnyp-5VGDVYHYx'
+const url = 'https://api.yelp.com/v3/businesses/search?'
+
 
 //Routing 
 app.get('/', (req, res) => {
     res.render('home')
 })
+
+///// Create
+
+// Create Item
+app.get('/itinerary/create', (req, res) =>{
+    res.render('create')
+})
+
 
 
 ///// READ
@@ -48,6 +61,21 @@ app.get('/', (req, res) => {
 app.get('/itinerary/:id', async (req, res) => {
     const { id } = req.params;
     let item = await itinerary.findById(id)
+    console.log(item.location)
+    let info = 3
+    // API SET UP + Data Set Up
+
+    await fetch(`https://api.yelp.com/v3/businesses/search?term=food&location=${item.location}&limit=12&sort_by=review_count&radius=10`, {
+        method: 'GET',
+        headers: ({
+            'Authorization': `Bearer ${apiKey}`        
+        })})
+        .then(res => res.json())
+        .then(data => (info = data.businesses))
+        .catch((error) => console.log(error))
+    // 
+    
+    item.yelp = info
     res.render('view', { item })
 })
 
@@ -58,10 +86,7 @@ app.get('/itinerary', async (req, res) => {
     
 })
 
-// Create Item
-app.get('/create', (req, res) =>{
-    res.render('create')
-})
+// Create POST 
 
 app.post('/create', async (req, res) => {
     try {
