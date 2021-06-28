@@ -3,23 +3,25 @@
 <head>
     <title>Document</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/viewall.css">
 </head>
 <body>
     <a href="/">Home</a>
     <a href="/create">Create</a>
     <h1>ALL ITEM</h1>
-
+    <div class="format">
     <% for(let itinerary of allItinerary) { %>
-    <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src="img/sample1.jpg" alt="Card image cap" width='200' height='200'>
+    <span class="card" style="width: 18rem;">
+        <img class="card-img-top" src="/img/sample1.jpg" alt="Card image cap" width='200' height='200'>
         <div class="card-body">
         <h5 class="card-title"><%= itinerary.title %></h5>
         <p class="card-text"><%= itinerary.description %></p>
         <p class="card-text">Days: <%= itinerary.days %></p>
         <a href="/itinerary/<%=itinerary._id%>" class="btn btn-primary">View Details</a>
-    </div>
+        </div>
+    </span>
     <% } %> 
-
+    </div>
     
 </body>
 </html>

@@ -41,6 +41,7 @@ app.get('/', (req, res) => {
     res.render('home')
 })
 
+
 ///// READ
 
 // Show one item 
