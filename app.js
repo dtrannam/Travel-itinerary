@@ -66,11 +66,11 @@ app.post('/create', async (req, res) => {
     try {
         const newItem = new itinerary(
             {
-                title: req.body.name,
+                title: req.body.title,
                 location: req.body.location,
-                description: req.body.desc,
+                description: req.body.description,
                 traveler: req.body.traveler,
-                theme: req.body.focus,
+                theme: req.body.theme,
                 days:req.body.days,
                 items: req.body.items
             }
@@ -91,8 +91,6 @@ app.post('/create', async (req, res) => {
     }
 })
 
-
-
 // Delete Item
 
 app.delete('/itinerary/:id', async (req, res) => {
@@ -109,7 +107,12 @@ app.get('/itinerary/:id/edit', async (req,res) => {
     res.render('edit', { item })
 })
 
-app.put('/')
+app.put('/itinerary/:id', async(req, res) => {
+    const { id } = req.params
+    const updateItem = await itinerary.findByIdAndUpdate(id, {... req.body})
+    res.redirect(`/itinerary/${id}`)
+
+})
 
 // Set Up
 app.listen(3000, () => {

@@ -13,14 +13,14 @@
         <a href="/itinerary">View All</a>
         <form action="/create" method="POST" id='newItem'>
          <!-- User Input -->
-        <label for="label">Enter a title:    </label>
-        <input type="text" id='name' maxlength="10" name='name'>
+        <label for="title">Enter a title:    </label>
+        <input type="text" id='title' maxlength="20" name='title'>
         <br>
         <label for="location">Enter a location:</label>
         <input type="text" id="location" name='location' maxlength="15">
         <br>
-        <label for="about">Enter a short description about this plan:</label>
-        <input type="text" maxlength="280" name='desc'>
+        <label for="description">Enter a short description about this plan:</label>
+        <input type="text" maxlength="280" name='description'>
         <br>
         <!-- Predefined Selection for filtering -->
         <label for="traveler">What type of travelers?</label>
@@ -32,8 +32,8 @@
             <option value="Mixed">Mixed - Good for anyone! </option>
         </select>
         <br>
-        <label for="focus">What's the theme of this trip?</label>
-        <select name="focus" id="focus">
+        <label for="theme">What's the theme of this trip?</label>
+        <select name="theme" id="theme">
             <option value="nature">Nature - From national parks to raging rivers!</option>
             <option value="resort">Resort - </option>
             <option value="urban">Urban</option>

@@ -19,7 +19,6 @@ selectedDays.addEventListener('input', () => {
         informationtable.appendChild(curinput)
         let br = document.createElement('br')
         informationtable.appendChild(br)
-    }  
-    
-    
+    }      
 })
+

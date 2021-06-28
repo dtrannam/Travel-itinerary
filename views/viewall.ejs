@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
     <a href="/">Home</a>
     <a href="/create">Create</a>
     <h1>ALL ITEM</h1>
-        <ul>
-            <% for(let itinerary of allItinerary) { %>
-                    <ul><h3><%= itinerary.title %></h3>
-                    <li><%= itinerary.description %> </li>
-                    <li><%= itinerary.days %> </li>
-                    <li><%= itinerary.items %> </li>
-                    <li><a href='/itinerary/<%=itinerary._id%>'><button>Go to details</button></a></li>
-                </ul>
-                <% } %> 
-        </ul>
+
+    <% for(let itinerary of allItinerary) { %>
+    <div class="card" style="width: 18rem;">
+        <img class="card-img-top" src="img/sample1.jpg" alt="Card image cap" width='200' height='200'>
+        <div class="card-body">
+        <h5 class="card-title"><%= itinerary.title %></h5>
+        <p class="card-text"><%= itinerary.description %></p>
+        <p class="card-text">Days: <%= itinerary.days %></p>
+        <a href="/itinerary/<%=itinerary._id%>" class="btn btn-primary">View Details</a>
+    </div>
+    <% } %> 
+
     
 </body>
 </html>
