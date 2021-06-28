@@ -4,19 +4,15 @@ Travel Itinerary web application using Express, Node.JS, MongoDB, and EJS
 
 Current functionality: 
 
-Create
+Basic Crud Functionality working
 
-Delete
 
-Read
 
 In the works:
 
-Update
+Basic Styling 
 
-Improve design
-
-Possible link to Google Maps/Yelp API
+Yelp API
 
 Better restrictions on deleting
 
@@ -25,3 +21,7 @@ Implement better information on page
 Implement picture storage somehow
 
 Design page set up
+
+Implement possible logins
+
+Implement better default to updates 
