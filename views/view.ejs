@@ -5,6 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/item.css">
 </head>
 <body>
     <h1>ITEM</h1>
@@ -12,6 +15,7 @@
     <section>
         <p> Description: <%= item.description %></p>
         <p> Days: <%= item.days %></p>
+        <p> Location: <%= item.location %></p>
     </section>
     <ul>
         <% for(let itinerary of item.items) { %>
@@ -20,10 +24,26 @@
     </ul>
     <button><a href="/itinerary">Return</a></button>
     
-    <!-- TESTING FUNCTION ONLY -->
+    <h3>Popular foods around the area!</h3>
+    <div class="format">
+    <% for(let food of item.yelp) { %>
+    <div class="card" style="width: 18rem;">
+        <img class="card-img-top" src=<%= food.image_url %>  width='200' height='200'> alt="Card image cap">
+        <div class="card-body">
+          <h5 class="card-title"> <%= food.name %></h5>
+          <p class="card-text">Rating: <%= food.rating %>/5</p>
+          <p class="card-text">Address: <%= food.location.display_address %></p>
+          <p class="card-text">Categories: <%= food.categories[0].alias %></p>
+          <a href=<%= food.url %> class="btn btn-primary">Go Yelp Page!</a>
+        </div>
+    </div>
+    <% } %>
+    </div>
+
     <form action="/itinerary/<%= item.id%>?_method=DELETE" method="POST">
         <button>Delete</button>
     </form>
+    <br>
     <form action="/itinerary/<%= item.id%>/edit" method='PUT'>
         <button>Update</button>
     </form>

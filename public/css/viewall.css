@@ -1,0 +1,13 @@
+body {
+    background-color: rgb(61, 186, 202);
+}
+
+.format {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.card {
+    margin: 20px
+}
