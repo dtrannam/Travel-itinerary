@@ -2,26 +2,21 @@
 
 Travel Itinerary web application using Express, Node.JS, MongoDB, and EJS
 
-Current functionality: 
+## Current functionality: 
 
-Basic Crud Functionality working
+* Basic Crud Functionality working
+* Yelp API
 
 
+## In the works:
 
-In the works:
+* Basic Styling 
+* Better restrictions on deleting
+* Implement better information on page
+* Implement picture storage somehow
+* Design page set up
+* AWS Deployment
 
-Basic Styling 
-
-Yelp API
-
-Better restrictions on deleting
-
-Implement better information on page
-
-Implement picture storage somehow
-
-Design page set up
-
-Implement possible logins
-
-Implement better default to updates 
+## Extras:
+* Implement possible logins?
+* Implement better default to updates 
