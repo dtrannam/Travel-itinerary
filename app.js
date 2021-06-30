@@ -43,14 +43,14 @@ const url = 'https://api.yelp.com/v3/businesses/search?'
 
 //Routing 
 app.get('/', (req, res) => {
-    res.render('home')
+    res.render('pages/home')
 })
 
 ///// Create
 
 // Create Item
 app.get('/itinerary/create', (req, res) =>{
-    res.render('create')
+    res.render('pages/create')
 })
 
 
@@ -65,7 +65,7 @@ app.get('/itinerary/:id', async (req, res) => {
     let info = 3
     // API SET UP + Data Set Up
 
-    await fetch(`https://api.yelp.com/v3/businesses/search?term=food&location=${item.location}&limit=12&sort_by=review_count&radius=10`, {
+    await fetch(`https://api.yelp.com/v3/businesses/search?term=food&location=${item.location}&limit=12&sort_by=review_count&radius=10000`, {
         method: 'GET',
         headers: ({
             'Authorization': `Bearer ${apiKey}`        
@@ -76,13 +76,13 @@ app.get('/itinerary/:id', async (req, res) => {
     // 
     
     item.yelp = info
-    res.render('view', { item })
+    res.render('pages/view', { item })
 })
 
 // Show all
 app.get('/itinerary', async (req, res) => {
     const allItinerary = await itinerary.find({})
-    res.render('viewall', { allItinerary })
+    res.render('pages/viewall', { allItinerary })
     
 })
 
@@ -113,7 +113,7 @@ app.post('/create', async (req, res) => {
         )
     
     }  catch (err) {
-    res.render('/itinerary')
+    res.render('pages/itinerary')
     }
 })
 
@@ -122,7 +122,7 @@ app.post('/create', async (req, res) => {
 app.delete('/itinerary/:id', async (req, res) => {
     const { id } = req.params
     const remove = await itinerary.findByIdAndDelete(id);
-    res.redirect('/itinerary')
+    res.redirect('pages/itinerary')
 })
 
 
@@ -130,13 +130,13 @@ app.delete('/itinerary/:id', async (req, res) => {
 app.get('/itinerary/:id/edit', async (req,res) => {
     const { id } = req.params
     const item = await itinerary.findById(id)
-    res.render('edit', { item })
+    res.render('pages/edit', { item })
 })
 
 app.put('/itinerary/:id', async(req, res) => {
     const { id } = req.params
     const updateItem = await itinerary.findByIdAndUpdate(id, {... req.body})
-    res.redirect(`/itinerary/${id}`)
+    res.redirect(`pages/itinerary/${id}`)
 
 })
 
