@@ -25,7 +25,12 @@
         <% } %> 
     </ul>
     <button><a href="/itinerary">Return</a></button>
-    
+    <form action="/itinerary/<%= item.id%>?_method=DELETE" method="POST">
+        <button>Delete</button>
+    </form>
+    <form action="/itinerary/<%= item.id%>/edit" method='PUT'>
+        <button>Update</button>
+    </form>
     <h3>Popular foods around the area!</h3>
     <div class="format">
     <% for(let food of item.yelp) { %>
@@ -42,12 +47,5 @@
     <% } %>
     </div>
 
-    <form action="/itinerary/<%= item.id%>?_method=DELETE" method="POST">
-        <button>Delete</button>
-    </form>
-    <br>
-    <form action="/itinerary/<%= item.id%>/edit" method='PUT'>
-        <button>Update</button>
-    </form>
 </body>
 </html>
