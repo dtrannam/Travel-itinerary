@@ -1,7 +1,9 @@
 // Express Set Up
-const express = require('express');
+const express = require('express')
+const ejsmate = require('ejs-mate')
 const app = express()
 const path = require('path')
+
 
 // Data parsing 
 app.use(express.json()) // for parsing application/json
@@ -15,7 +17,7 @@ app.use(methodOverride('_method'))
 // EJS Set Up
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'))
-
+app.engine('ejs', ejsmate)
 // CSS/JS Set Up
 app.use(express.static('public'));
 
