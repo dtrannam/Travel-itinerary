@@ -12,7 +12,6 @@
     <link rel="stylesheet" href="/css/item.css">
 </head>
 <body>
-    <h1>ITEM</h1>
     <h1><%= item.title %> </h1>
     <section>
         <p> Description: <%= item.description %></p>
@@ -24,20 +23,22 @@
         <li> <%=  itinerary %> </li>
         <% } %> 
     </ul>
-    <button><a href="/itinerary">Return</a></button>
+    <section class='buttons'>
+    <button class="btn btn-success mb-2"><a id='return' href="/itinerary">Return</a></button>
     <form action="/itinerary/<%= item.id%>?_method=DELETE" method="POST">
-        <button>Delete</button>
+        <button class="btn btn-danger mb-2">Delete</button>
     </form>
     <form action="/itinerary/<%= item.id%>/edit" method='PUT'>
-        <button>Update</button>
+        <button  class="btn btn-primary mb-2" >Update</button>
     </form>
-    <h3>Popular foods around the area!</h3>
+    </section>
+    <h2>Popular foods around the area!</h2>
     <div class="format">
     <% for(let food of item.yelp) { %>
     <div class="card" style="width: 18rem;">
         <img class="card-img-top" src=<%= food.image_url %>  width='200' height='200'> alt="Card image cap">
         <div class="card-body">
-          <h5 class="card-title"> <%= food.name %></h5>
+          <h5 class="card-title"><%= food.name %></h5>
           <p class="card-text">Rating: <%= food.rating %>/5</p>
           <p class="card-text">Address: <%= food.location.display_address %></p>
           <p class="card-text">Categories: <%= food.categories[0].alias %></p>

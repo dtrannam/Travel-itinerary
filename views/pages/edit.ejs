@@ -2,60 +2,87 @@
 
 <body>
     <h1>Edit <%= item.title %></h1>
+    <section>
     <form action="/itinerary/<%= item._id %>?_method=PUT" method="POST">
-        <label for="title">Title   </label>
-        <input type="text" id='name' maxlength="20" name='title' value='<%= item.title %>'>  
-        <br>
-        <label for="location">Location:</label>
-        <input type="text" id="location" name='location' maxlength="15" value='<%= item.location %>'>
-        <br>
-        <label for="description">Enter a short description about this plan:</label>
-        <input type="text" maxlength="280" name='description' value='<%= item.description %>'>
-        <br>
-        <label for="traveler">What type of travelers?  Currently: <%= item.traveler %></label>
-        <select name="traveler" id="traveler" value='<%= item.traveler %>'>
-            <option value="Solo">Solo - For travelers who want to indulge in yourself</option>
-            <option value="Couples">Couples - For romatic getaways with your significant others</option>
-            <option value="Family">Family Friend - For trips with the family who may not be as adventerous</option>
-            <option value="Friends">Group Trip - The more the merrier! </option>
-            <option value="Mixed">Mixed - Good for anyone! </option>
-        </select>
-        <br>
-        <label for="theme">What's the theme of this trip? Currently: <%= item.theme %></label>
-        <select name="focus" id="theme">
-            <option value="nature">Nature</option>
-            <option value="resort">Resort</option>
-            <option value="urban">Urban</option>
-        </select>
-        <br>
-        <label for="days">Amount of day (Up to 7) Currently: <%= item.days %>:</label>
-        <select name="days" id='days'>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-        </select>
-        <br>
-        <br>
-        <br>
-        <h3>New Information:</h3>
-        <section id='daysinput'>
-            <label for="1">Day 1</label>
-            <input type="text" id='items' name='items'>
-        </section>
-        <h3>Current Information:</h3>
-        <br>
+        <div class="mb-3">
+            <label class="form-label" for="title">Title</label>
+            <input class="form-control" type="text" id='name' maxlength="20" name='title' value='<%= item.title %>'> 
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="location">Location:</label>
+            <input class="form-control" type="text" id="location" name='location' maxlength="15" value='<%= item.location %>'>
+        </div>
+        <div class="mb-3">
+            <label for="description">Enter a short description about this plan:</label>
+            <textarea class="form-control" type="text" maxlength="280" name='description'><%= item.description%></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" class="form-label"for="traveler">What type of travelers?</label>
+            <div class="form-text">Currently: <%= item.traveler %></div>
+            <select class="form-control" name="traveler" id="traveler" value='<%= item.traveler %>'>
+                <option value="Solo">Solo</option>
+                <option value="Couples">Couples</option>
+                <option value="Family">Family-Friendly</option>
+                <option value="Friends">Group Trip</option>
+            </select>
+            <ul class="form-text">
+                <li>Solo - Best for the lone explorer</li>
+                <li>Couples - For romatic getaways</li>
+                <li>Family Friendly - Keeping it PG!</li>
+                <li>Groups - Best with Friends!</li>
+            </ul>
+        </div>
+    
+        <div class="mb-3">
+            <label class="form-label" for="theme">What's the theme of this trip?</label>
+            <div class="form-text">Currently: <%= item.theme %></div>
+            <select class="form-control" name="focus" id="theme">
+                <option value="nature">Nature</option>
+                <option value="resort">Resort</option>
+                <option value="urban">Urban</option>
+                <option value="road-trip">Road Trip</option>
+                <option value="Mixed">Mixed</option>
+            </select>
+            <ul class="form-text">
+                <li>Nature - From exploring new lands, camping, or just being out at a lake! </li>
+                <li>Resort/Cruise - The stay is the vacation! </li>
+                <li>Urban - New cities, new sites</li>
+                <li>Road Trip - Are we there yet?</li>
+                <li>Mixed - Why not all of them?</li>
+            </ul>
+        </div>
+        
+        <div class="mb-3">
+            <label class="form-label" for="days">Amount of day (Up to 7) Currently: <%= item.days %>:</label>
+            <select class="form-control" name="days" id='days'>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+            </select>
+        </div>
+        <h2 class='mb-3'>Current Information:</h2>
         <% item.items.forEach(element => { %>
              <%= element %>
-             <br> 
+        <br> 
         <% }) %>
         <br>
-           <button>Update</button>
+
+        <h2 class='mb-3'>New Information:</h2>
+        <section id='daysinput'>
+            <label class="form-label"for="1">Day 1</label>
+            <input class="form-control" type="text" id='items' name='items'>
+        </section>
     </form>
-    <a href="/itinerary/<%= item._id %>"><button>Return</button></a>
+    </section>
+    <a href="/itinerary/<%= item._id %>" class='btn btn-success mb-2'>Return</a>
+    <form action="/itinerary/<%= item.id%>?_method=DELETE" method="POST">
+        <button class="btn btn-danger mb-2">Delete</button>
+    </form>
     <script src='/scripts/edit.js'></script>
 </body>
 </html>

@@ -8,8 +8,6 @@
     <link rel="stylesheet" href="/css/viewall.css">
 </head>
 <body>
-    <a href="/">Home</a>
-    <a href="/create">Create</a>
     <h1>ALL ITEM</h1>
     <div class="format">
     <% for(let itinerary of allItinerary) { %>
@@ -19,8 +17,7 @@
         <h5 class="card-title"><%= itinerary.title %></h5>
         <p class="card-text"><%= itinerary.description %></p>
         <p class="card-text">Days: <%= itinerary.days %></p>
-        <a href="/itinerary/<%=itinerary._id%>" class="btn btn-primary">View Details</a>
-        
+        <a href="/itinerary/<%=itinerary._id%>" class="btn btn-primary">View Details</a>  
     </div>
     </span>
     <% } %> 

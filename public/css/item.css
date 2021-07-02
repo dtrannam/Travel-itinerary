@@ -5,9 +5,14 @@ body {
 .format {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 
 .card {
     margin: 10px
+}
+
+#return {
+    text-decoration: none;
+    color: inherit;
 }
