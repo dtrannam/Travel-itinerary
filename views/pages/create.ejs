@@ -1,63 +1,76 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
-    </head>
+<% layout('layout/boilerplate') %>
     <body>
-        <a href="/">Home</a>
-        <a href="/itinerary">View All</a>
-        <form action="/create" method="POST" id='newItem'>
-         <!-- User Input -->
-        <label for="title">Enter a title:    </label>
-        <input type="text" id='title' maxlength="20" name='title'>
-        <br>
-        <label for="location">Enter a location:</label>
-        <input type="text" id="location" name='location' maxlength="15">
-        <br>
-        <label for="description">Enter a short description about this plan:</label>
-        <input type="text" maxlength="280" name='description'>
-        <br>
-        <!-- Predefined Selection for filtering -->
-        <label for="traveler">What type of travelers?</label>
-        <select name="traveler" id="traveler">
-            <option value="Solo">Solo - For travelers who want to indulge in yourself</option>
-            <option value="Couples">Couples - For romatic getaways with your significant others</option>
-            <option value="Family">Family Friend - For trips with the family who may not be as adventerous</option>
-            <option value="Friends">Group Trip - The more the merrier! </option>
-            <option value="Mixed">Mixed - Good for anyone! </option>
-        </select>
-        <br>
-        <label for="theme">What's the theme of this trip?</label>
-        <select name="theme" id="theme">
-            <option value="nature">Nature - From national parks to raging rivers!</option>
-            <option value="resort">Resort - </option>
-            <option value="urban">Urban</option>
-        </select>
-        <br>
-        <label for="days">Amount of day (Up to 7):</label>
-        <select name="days" id='days'>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-        </select>
-        <br>
-        <br>
-        <h3>Information:</h3>
-        <section id='daysinput'>
-            <label for="1">Day 1</label>
-            <input type="text" id='items' name='items'>
-        </section>
-        <input type="submit">
-    </form>
+    <div class='row'>
+        <h1 class=text-center>Create New items</h1>
+        <div class='col-6 offset-3'>   
+             <form action="/create" method="POST" id='newItem'>
+            <!-- User Input -->
+                <div class="mb-3">
+                    <label class="form-label" for="title">Title:</label>
+                    <input class="form-control" type="text" id='title' maxlength="20" name='title'>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="location">Location:</label>
+                    <input class="form-control" type="text" id="location" name='location' maxlength="15">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="description">Enter a short description about this plan:</label>
+                    <textarea aria-label="With textarea" class="form-control" type="text" maxlength="280" name='description'></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="traveler">Best for</label>
+                    <select class="form-control" name="traveler" id="traveler">
+                        <option value="Solo">Solo</option>
+                        <option value="Couples">Couples</option>
+                        <option value="Family">Family-Friendly</option>
+                        <option value="Friends">Group Trip</option>
+                    </select>
+                    <ul class="form-text">
+                        <li>Solo - Best for the lone explorer</li>
+                        <li>Couples - For romatic getaways</li>
+                        <li>Family Friendly - Keeping it PG!</li>
+                        <li>Groups - Best with Friends!</li>
+                    </ul>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="theme">Type of Trip</label>
+                    <select class="form-control" name="theme" id="theme">
+                        <option value="nature">Nature</option>
+                        <option value="resort">Resort</option>
+                        <option value="urban">Urban</option>
+                        <option value="road-trip">Road Trip</option>
+                        <option value="Mixed">Mixed</option>
+                    </select>
+                    <ul class="form-text">
+                        <li>Nature - From exploring new lands, camping, or just being out at a lake! </li>
+                        <li>Resort/Cruise - The stay is the vacation! </li>
+                        <li>Urban - New cities, new sites</li>
+                        <li>Road Trip - Are we there yet?</li>
+                        <li>Mixed - Why not all of them?</li>
+                    </ul>
+                </div>
+            <label class="form-label" for="days">Amount of day (Up to 7):</label>
+            <select class="form-control" name="days" id='days'>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+            </select>
+            <p class="form-text">Note changing the days will reset the information below</p>
+            <br>
+            <br>
+            <h2>Information:</h2>
+            <section id='daysinput' class="mb-2">
+                <label class="form-label" for="1">Day 1</label>
+                <input class="form-control" type="text" id='items' name='items'>
+            </section>
+            <input type="submit" class="btn btn-success">
+        </div>
+        </form>
+    </div>
     </body>
     <script src="/Scripts/create.js" async defer></script>
     

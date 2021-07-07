@@ -1,7 +1,9 @@
 // Express Set Up
-const express = require('express');
+const express = require('express')
+const ejsmate = require('ejs-mate')
 const app = express()
 const path = require('path')
+const AppError = require('./AppError')
 
 // Data parsing 
 app.use(express.json()) // for parsing application/json
@@ -15,7 +17,7 @@ app.use(methodOverride('_method'))
 // EJS Set Up
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'))
-
+app.engine('ejs', ejsmate)
 // CSS/JS Set Up
 app.use(express.static('public'));
 
@@ -54,17 +56,15 @@ app.get('/itinerary/create', (req, res) =>{
 })
 
 
-
-///// READ
-
 // Show one item 
-app.get('/itinerary/:id', async (req, res) => {
+app.get('/itinerary/:id', async (req, res, next) => {
     const { id } = req.params;
     let item = await itinerary.findById(id)
-    console.log(item.location)
-    let info = 3
-    // API SET UP + Data Set Up
-
+    if (!item) {
+        return next(new AppError('Product not Found', 400));
+    }
+    // YELP
+    
     await fetch(`https://api.yelp.com/v3/businesses/search?term=food&location=${item.location}&limit=12&sort_by=review_count&radius=10000`, {
         method: 'GET',
         headers: ({
@@ -73,7 +73,7 @@ app.get('/itinerary/:id', async (req, res) => {
         .then(res => res.json())
         .then(data => (info = data.businesses))
         .catch((error) => console.log(error))
-    // 
+
     
     item.yelp = info
     res.render('pages/view', { item })
@@ -140,7 +140,17 @@ app.put('/itinerary/:id', async(req, res) => {
 
 })
 
-// Set Up
+// Set Up and Error Handling
+
+app.use((req, res) => {
+    res.send('Page not found')
+})
+
+app.use((err, req, res, next) => {
+  const {status = 500} = error
+  res.status(status).send('Internal Error')
+  })
+
 app.listen(3000, () => {
      console.log('Port 3000 is working')
 })
