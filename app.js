@@ -23,6 +23,7 @@ app.use(express.static('public'));
 
 // Mongoose Set Up
 const mongoose = require('mongoose');
+const ObjectID = require('mongodb').ObjectID;
 mongoose.connect('mongodb://localhost:27017/itinerary', 
     {useNewUrlParser: true, useUnifiedTopology: true    
 })
@@ -59,7 +60,15 @@ app.get('/itinerary/create', (req, res) =>{
 // Show one item 
 app.get('/itinerary/:id', async (req, res, next) => {
     const { id } = req.params;
+    
+    // Throw error if id is not valid (else we get a cast error when searching)
+    
+    if (!ObjectID.isValid(id)) {
+        return next(new AppError('Invalid Id', 400));
+    }
+
     let item = await itinerary.findById(id)
+    // Throw error if id is not found
     if (!item) {
         return next(new AppError('Product not Found', 400));
     }
@@ -147,8 +156,8 @@ app.use((req, res) => {
 })
 
 app.use((err, req, res, next) => {
-  const {status = 500} = error
-  res.status(status).send('Internal Error')
+  const {status = 500, message = 'Something went wrong'} = err
+  res.status(status).send(message)
   })
 
 app.listen(3000, () => {
