@@ -79,20 +79,29 @@ app.get('/itinerary/:id', async (req, res, next) => {
         headers: ({
             'Authorization': `Bearer ${apiKey}`        
         })})
-        .then(res => res.json())
-        .then(data => (info = data.businesses))
-        .catch((error) => console.log(error))
+        .then(res => {
+            return res.json()
+        })
+        .then(data => {
+            item.yelp = data.businesses
+        })
+        .catch(error => {
+            // prevent rendering of yelp option 
+            item.yelp = [] 
+        })
 
     
-    item.yelp = info
     res.render('pages/view', { item })
 })
 
 // Show all
 app.get('/itinerary', async (req, res) => {
+    try {
     const allItinerary = await itinerary.find({})
     res.render('pages/viewall', { allItinerary })
-    
+    } catch(err) {
+    next(err)
+    }
 })
 
 // Create POST 
@@ -121,43 +130,58 @@ app.post('/create', async (req, res) => {
             }
         )
     
-    }  catch (err) {
-    res.render('pages/itinerary')
+    } catch (err) {
+    // Error handling if product can't be save
+        next(err); 
     }
 })
 
 // Delete Item
 
 app.delete('/itinerary/:id', async (req, res) => {
-    const { id } = req.params
-    const remove = await itinerary.findByIdAndDelete(id);
-    res.redirect('pages/itinerary')
+    try {
+        const { id } = req.params
+        const remove = await itinerary.findByIdAndDelete(id);
+        res.redirect('pages/itinerary')
+    } catch (err) {
+        next(err)
+    }
+
 })
 
 
 // Update.
 app.get('/itinerary/:id/edit', async (req,res) => {
-    const { id } = req.params
-    const item = await itinerary.findById(id)
-    res.render('pages/edit', { item })
+    try {
+        const { id } = req.params
+        const item = await itinerary.findById(id)
+        res.render('pages/edit', { item })
+    } catch(err) {
+        next(err)
+    }
+
 })
 
 app.put('/itinerary/:id', async(req, res) => {
-    const { id } = req.params
-    const updateItem = await itinerary.findByIdAndUpdate(id, {... req.body})
-    res.redirect(`pages/itinerary/${id}`)
-
+    try {
+        const { id } = req.params
+        const updateItem = await itinerary.findByIdAndUpdate(id, {... req.body})
+        res.redirect(`pages/itinerary/${id}`)
+    } catch(err) {
+        next(err)
+    }
 })
 
 // Set Up and Error Handling
 
 app.use((req, res) => {
-    res.send('Page not found')
+    const err = {status: 401, message: 'Page not found'}
+    res.render('pages/error', { err })
 })
 
 app.use((err, req, res, next) => {
   const {status = 500, message = 'Something went wrong'} = err
-  res.status(status).send(message)
+  res.status(status).render('pages/error', { err })
   })
 
 app.listen(3000, () => {

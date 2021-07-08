@@ -13,6 +13,7 @@ selectedDays.addEventListener('input', () => {
         let curinput = document.createElement('input')
         curLabel.setAttribute('for', i)
         curLabel.classList.add('form-label')
+        curinput.required = true
         curinput.setAttribute('id', i)
         curinput.classList.add('form-control')
         curinput.setAttribute('name', 'items')

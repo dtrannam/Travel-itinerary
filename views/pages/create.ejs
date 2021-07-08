@@ -7,19 +7,19 @@
             <!-- User Input -->
                 <div class="mb-3">
                     <label class="form-label" for="title">Title:</label>
-                    <input class="form-control" type="text" id='title' maxlength="20" name='title'>
+                    <input class="form-control" type="text" id='title' maxlength="20" name='title' required>
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="location">Location:</label>
-                    <input class="form-control" type="text" id="location" name='location' maxlength="15">
+                    <input class="form-control" type="text" id="location" name='location' maxlength="15" required>
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="description">Enter a short description about this plan:</label>
-                    <textarea aria-label="With textarea" class="form-control" type="text" maxlength="280" name='description'></textarea>
+                    <textarea aria-label="With textarea" class="form-control" type="text" maxlength="280" name='description' required></textarea>
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="traveler">Best for</label>
-                    <select class="form-control" name="traveler" id="traveler">
+                    <select class="form-control" name="traveler" id="traveler" required>
                         <option value="Solo">Solo</option>
                         <option value="Couples">Couples</option>
                         <option value="Family">Family-Friendly</option>
@@ -34,7 +34,7 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="theme">Type of Trip</label>
-                    <select class="form-control" name="theme" id="theme">
+                    <select class="form-control" name="theme" id="theme" required>
                         <option value="nature">Nature</option>
                         <option value="resort">Resort</option>
                         <option value="urban">Urban</option>
@@ -50,7 +50,7 @@
                     </ul>
                 </div>
             <label class="form-label" for="days">Amount of day (Up to 7):</label>
-            <select class="form-control" name="days" id='days'>
+            <select class="form-control" name="days" id='days' required>
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -65,7 +65,7 @@
             <h2>Information:</h2>
             <section id='daysinput' class="mb-2">
                 <label class="form-label" for="1">Day 1</label>
-                <input class="form-control" type="text" id='items' name='items'>
+                <input class="form-control" type="text" id='items' name='items' required>
             </section>
             <input type="submit" class="btn btn-success">
         </div>

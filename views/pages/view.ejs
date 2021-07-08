@@ -32,6 +32,8 @@
         <button  class="btn btn-primary mb-2" >Update</button>
     </form>
     </section>
+    
+    <% if (item.yelp) { %>
     <h2>Popular foods around the area!</h2>
     <div class="format">
     <% for(let food of item.yelp) { %>
@@ -46,6 +48,7 @@
         </div>
     </div>
     <% } %>
+    <% } %> 
     </div>
 
 </body>
