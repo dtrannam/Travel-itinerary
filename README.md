@@ -20,6 +20,7 @@ Travel Itinerary web application using Express, Node.JS, MongoDB, and EJS
 * Implement delete for comments
 * Implement google autocomplete on address https://developers.google.com/maps/documentation/places/web-service/overview or https://community.algolia.com/places/pricing.html
 * Post request clean up
+* Create Seed Data
 * Design page set up
 * AWS Deployment
 
