@@ -7,14 +7,17 @@ Travel Itinerary web application using Express, Node.JS, MongoDB, and EJS
 * Basic Crud Functionality working
 * Yelp API
 * Basic Styling 
+* Basic Error Handling
+* Creation of comments 
 
 ## In the works:
 
-* Implement better information on page
-* Implement possible logins?
+* Implement possible logins
 * Implement picture storage somehow
 * Implement google autocomplete on address 
+* Implement better information on page
 * Update form to include caption, about us, notes, pricing
+* Implement delete for comments
 * Implement google autocomplete on address https://developers.google.com/maps/documentation/places/web-service/overview or https://community.algolia.com/places/pricing.html
 * Post request clean up
 * Design page set up

@@ -18,6 +18,7 @@ app.use(methodOverride('_method'))
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'))
 app.engine('ejs', ejsmate)
+
 // CSS/JS Set Up
 app.use(express.static('public'));
 
@@ -28,6 +29,7 @@ mongoose.connect('mongodb://localhost:27017/itinerary',
     {useNewUrlParser: true, useUnifiedTopology: true    
 })
 const itinerary = require('./models/itinerary');
+const comment = require('./models/comments');
 const { response } = require('express');
 
 
@@ -49,29 +51,95 @@ app.get('/', (req, res) => {
     res.render('pages/home')
 })
 
-///// Create
 
-// Create Item
+// Create 
 app.get('/itinerary/create', (req, res) =>{
     res.render('pages/create')
 })
 
+app.post('/itinerary/create', async (req, res) => {
+    try {
+        const newItem = new itinerary(
+            {
+                title: req.body.title,
+                location: req.body.location,
+                description: req.body.description,
+                traveler: req.body.traveler,
+                theme: req.body.theme,
+                days:req.body.days,
+                items: req.body.items
+            }
+        )
+        await newItem.save(
+            function(err, item) {
+                if (err) {
+                    console.log(err);
+                    res.send('Shits bad yo')
+                } else {
+                    res.send(newItem._id)                
+                }
+            }
+        )
+    
+    } catch (err) {
+    // Error handling if product can't be save
+        next(err); 
+    }
+})
 
+app.post('/itinerary/:id/comment/new', async (req, res, next) => {
+    // Data handlers
+    
+    const { id } = req.params
+    const {person, response } = req.body
+    const current = new Date()
+    const date = `${current.getFullYear()}-${current.getMonth()}-${current.getDate()}`
+    console.log(id, person, response, date)
+
+    // Throw error if id is not valid 
+
+    if (!ObjectID.isValid(id)) {
+        return next(new AppError('Invalid Id', 400));
+    }
+    
+    const item = await itinerary.findById(id)
+    
+    if (!item) {
+        return next(new AppError('Product not Found', 400));
+    }
+
+    // Create comment
+
+    const newComment = new comment({
+        name: person,
+        date: date,
+        comment: response
+    })
+    let saveComment = await newComment.save()
+    item.comments.push(saveComment)
+    await item.save()
+    res.redirect(`/itinerary/${id}`)
+    
+
+})
 // Show one item 
 app.get('/itinerary/:id', async (req, res, next) => {
     const { id } = req.params;
-    
+
     // Throw error if id is not valid (else we get a cast error when searching)
     
     if (!ObjectID.isValid(id)) {
         return next(new AppError('Invalid Id', 400));
     }
 
-    let item = await itinerary.findById(id)
+    let item = await itinerary.findById(id).populate('comments')
     // Throw error if id is not found
     if (!item) {
         return next(new AppError('Product not Found', 400));
     }
+
+
+
     // YELP
     
     await fetch(`https://api.yelp.com/v3/businesses/search?term=food&location=${item.location}&limit=12&sort_by=review_count&radius=10000`, {
@@ -104,37 +172,7 @@ app.get('/itinerary', async (req, res) => {
     }
 })
 
-// Create POST 
 
-app.post('/create', async (req, res) => {
-    try {
-        const newItem = new itinerary(
-            {
-                title: req.body.title,
-                location: req.body.location,
-                description: req.body.description,
-                traveler: req.body.traveler,
-                theme: req.body.theme,
-                days:req.body.days,
-                items: req.body.items
-            }
-        )
-        await newItem.save(
-            function(err, item) {
-                if (err) {
-                    console.log(err);
-                    res.send('Shits bad yo')
-                } else {
-                    res.send(newItem._id)                
-                }
-            }
-        )
-    
-    } catch (err) {
-    // Error handling if product can't be save
-        next(err); 
-    }
-})
 
 // Delete Item
 
@@ -150,7 +188,7 @@ app.delete('/itinerary/:id', async (req, res) => {
 })
 
 
-// Update.
+// Update
 app.get('/itinerary/:id/edit', async (req,res) => {
     try {
         const { id } = req.params

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Comment = require('./comments')
 const Schema = mongoose.Schema
 
 
@@ -10,6 +11,11 @@ const itinerarySchema = new Schema({
     theme: String,
     days: Number,
     items: Array,
+    comments: [
+        {
+        type: Schema.Types.ObjectId, ref: 'Comment' 
+        }
+    ]
 })
 
 module.exports = mongoose.model('itinerary', itinerarySchema)
