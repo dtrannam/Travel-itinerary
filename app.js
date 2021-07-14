@@ -96,7 +96,6 @@ app.post('/itinerary/create', async (req, res) => {
 
 app.post('/itinerary/:id/comment/new', async (req, res, next) => {
     // Data handlers
-    
     const { id } = req.params
     const {person, response } = req.body
     const current = new Date()
@@ -221,19 +220,32 @@ app.put('/itinerary/:id', async(req, res) => {
 
 // Making an account
 app.get('/user/new', (req, res) => {
-    res.render('pages/newuser')
+    res.render('pages/user/newuser')
 })
 
 app.post('/user/new', async (req, res) => {
-    const {clientuser, password} = req.body
+    const {login, password} = req.body
     const bcryptPass = await bcrypt.hash(password, saltRounds)
     const newUser = new user({
-        username: clientuser, 
+        username: login, 
         password: bcryptPass
     })
     await newUser.save()
     res.send(newUser)
 })
+
+// Login
+
+app.get('/user/login', (req, res) => {
+    res.render('pages/user/login')
+})
+
+app.post('/user/login', (req, res) => {
+    const {login, attempt} = req.body
+    // Find Username
+    res.send('working')
+})
+
 
 /// Set Up and Error Handling
 
