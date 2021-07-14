@@ -30,6 +30,7 @@ mongoose.connect('mongodb://localhost:27017/itinerary',
 })
 const itinerary = require('./models/itinerary');
 const comment = require('./models/comments');
+const user = require('./models/user')
 const { response } = require('express');
 
 
@@ -40,10 +41,16 @@ db.once('open', () => {
     console.log('Mongoose is connected')
 });
 
+// Bcrypt Set Up
+const bcrypt = require('bcrypt'); 
+const saltRounds = 5;
+
+
 // API Connection + Fetch
 const fetch = require("node-fetch");
 const apiKey = 'fDJa1LEqLJHwrrXtbFXRwE3jEzeJcq4IwxflP-8hBEL84cPgqvY3UJJQD9mkaoso7cqlDWqmkKAK-BpuelZ12X-vda2b_4kjJIR2tb7J_69lB572MORnyp-5VGDVYHYx'
 const url = 'https://api.yelp.com/v3/businesses/search?'
+
 
 
 //Routing 
@@ -210,7 +217,25 @@ app.put('/itinerary/:id', async(req, res) => {
     }
 })
 
-// Set Up and Error Handling
+//// Registrations
+
+// Making an account
+app.get('/user/new', (req, res) => {
+    res.render('pages/newuser')
+})
+
+app.post('/user/new', async (req, res) => {
+    const {clientuser, password} = req.body
+    const bcryptPass = await bcrypt.hash(password, saltRounds)
+    const newUser = new user({
+        username: clientuser, 
+        password: bcryptPass
+    })
+    await newUser.save()
+    res.send(newUser)
+})
+
+/// Set Up and Error Handling
 
 app.use((req, res) => {
     const err = {status: 401, message: 'Page not found'}
