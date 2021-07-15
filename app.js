@@ -41,9 +41,7 @@ db.once('open', () => {
     console.log('Mongoose is connected')
 });
 
-// Bcrypt and Session Set Up
-const bcrypt = require('bcrypt'); 
-const saltRounds = 5; 
+// Passport/Session Set up
 
 const session = require('express-session')
 app.use(session({
@@ -51,6 +49,17 @@ app.use(session({
     resave: true,
     saveUninitialized: false
 }))
+
+const User = require('./models/user')
+const passport = require('passport');
+const passportLocal = require('passport-local')
+passport.use(new passportLocal(User.authenticate()))
+app.use(passport.initialize())
+app.use(passport.session());
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 
 
 // API Connection + Fetch
@@ -230,29 +239,26 @@ app.get('/user/new', (req, res) => {
     res.render('pages/user/newuser')
 })
 
-app.post('/user/new', async (req, res) => {
-    const {login, password} = req.body
-    const bcryptPass = await bcrypt.hash(password, saltRounds)
-    const newUser = new user({
-        username: login, 
-        password: bcryptPass
-    })
-    await newUser.save();
-    req.session.user_id = newUser._id
-    console.log(req.session.user_id) // testing
-    res.redirect("/home")
+app.post('/user/new', async (req, res, next) => {
+    try {
+    const {login, email, password} = req.body
+    const createdUser = new user({email, username: login})
+    const registerUser = await user.register(createdUser, password)
+    res.redirect('/') 
+    } catch (err) {
+        next(err)
+    }
+
 })
 
 // Login Process
 
-app.get('/user/login', (req, res) => {
-    res.render('pages/user/login')
+app.get('/user/login', async (req, res, next) => {
+    res.render("pages/user/login")
 })
 
 app.post('/user/login', (req, res) => {
-    const {login, attempt} = req.body
-    // Find Username
-    res.send('working')
+    res.send(req.body)
 })
 
 
