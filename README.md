@@ -12,7 +12,7 @@ Travel Itinerary web application using Express, Node.JS, MongoDB, and EJS
 
 ## In the works:
 
-* Implement possible logins/flash
+* Implement possible logins (Using Passport JS instead of sessions)
 * Implement picture storage somehow
 * Implement google autocomplete on address 
 * Implement better information on page

@@ -41,9 +41,16 @@ db.once('open', () => {
     console.log('Mongoose is connected')
 });
 
-// Bcrypt Set Up
+// Bcrypt and Session Set Up
 const bcrypt = require('bcrypt'); 
-const saltRounds = 5;
+const saltRounds = 5; 
+
+const session = require('express-session')
+app.use(session({
+    secret: 'test',
+    resave: true,
+    saveUninitialized: false
+}))
 
 
 // API Connection + Fetch
@@ -230,11 +237,13 @@ app.post('/user/new', async (req, res) => {
         username: login, 
         password: bcryptPass
     })
-    await newUser.save()
-    res.send(newUser)
+    await newUser.save();
+    req.session.user_id = newUser._id
+    console.log(req.session.user_id) // testing
+    res.redirect("/home")
 })
 
-// Login
+// Login Process
 
 app.get('/user/login', (req, res) => {
     res.render('pages/user/login')
@@ -245,6 +254,7 @@ app.post('/user/login', (req, res) => {
     // Find Username
     res.send('working')
 })
+
 
 
 /// Set Up and Error Handling
