@@ -41,13 +41,13 @@ db.once('open', () => {
     console.log('Mongoose is connected')
 });
 
-// Passport/Session Set up
+// Passport/Session/Flash Set up
 
 const session = require('express-session')
 app.use(session({
     secret: 'test',
-    resave: true,
-    saveUninitialized: false
+    resave: false,
+    saveUninitialized: true
 }))
 
 const User = require('./models/user')
@@ -60,7 +60,15 @@ app.use(passport.session());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+var flash = require('connect-flash');
+app.use(flash());
 
+// Middleware that will add any success flash key to the local so we don't have to do it per route.
+app.use((req, res, next) => {
+    res.locals.success = req.flash('success')
+    res.locals.failure = req.flash('failure')
+    next();
+})
 
 // API Connection + Fetch
 const fetch = require("node-fetch");
@@ -241,10 +249,12 @@ app.get('/user/new', (req, res) => {
 
 app.post('/user/new', async (req, res, next) => {
     try {
-    const {login, email, password} = req.body
-    const createdUser = new user({email, username: login})
-    const registerUser = await user.register(createdUser, password)
-    res.redirect('/') 
+        const {login, email, password} = req.body
+        const createdUser = new user({email, username: login})
+        console.log(createdUser, password)
+        const registerUser = await user.register(createdUser, password)
+        req.flash('success', `Account creation completed, welcome ${login}`)
+        res.redirect('/itinerary') 
     } catch (err) {
         next(err)
     }
