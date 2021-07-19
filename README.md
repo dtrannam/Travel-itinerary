@@ -9,10 +9,10 @@ Travel Itinerary web application using Express, Node.JS, MongoDB, and EJS
 * Basic Styling 
 * Basic Error Handling
 * Creation of comments 
-
+* Implemented Flash 
+* Implemented login process via Passport JS (http://www.passportjs.org/)
 ## In the works:
 
-* Implement possible logins (Using Passport JS instead of sessions)
 * Implement picture storage somehow
 * Implement google autocomplete on address 
 * Implement better information on page
@@ -26,6 +26,7 @@ Travel Itinerary web application using Express, Node.JS, MongoDB, and EJS
 * AWS Deployment
 
 ## Extras:
+* Add a saved feature to the user page 
 * Implement https://www.npmjs.com/package/joi for data validation 
 * Restructure db to take in a string per day rather than an array in create
 * Clean up syntax 

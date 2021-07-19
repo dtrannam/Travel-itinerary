@@ -110,7 +110,8 @@ app.post('/itinerary/create', isLogin, async (req, res) => {
                 traveler: req.body.traveler,
                 theme: req.body.theme,
                 days:req.body.days,
-                items: req.body.items
+                items: req.body.items,
+                author: req.user._id
             }
         )
         await newItem.save(
@@ -136,7 +137,6 @@ app.post('/itinerary/:id/comment/new', isLogin, async (req, res, next) => {
     const {person, response } = req.body
     const current = new Date()
     const date = `${current.getFullYear()}-${current.getMonth()}-${current.getDate()}`
-    console.log(id, person, response, date)
 
     // Throw error if id is not valid 
 
@@ -155,7 +155,8 @@ app.post('/itinerary/:id/comment/new', isLogin, async (req, res, next) => {
     const newComment = new comment({
         name: person,
         date: date,
-        comment: response
+        comment: response,
+        author: req.user._id
     })
     let saveComment = await newComment.save()
     item.comments.push(saveComment)
@@ -174,7 +175,12 @@ app.get('/itinerary/:id', async (req, res, next) => {
         return next(new AppError('Invalid Id', 400));
     }
 
-    let item = await itinerary.findById(id).populate('comments')
+    let item = await itinerary.findById(id).populate({
+        path: 'comments', populate: {
+            path: 'author',
+            select: 'username'
+            }
+    }).populate('author')
     // Throw error if id is not found
     if (!item) {
         return next(new AppError('Product not Found', 400));
@@ -200,7 +206,7 @@ app.get('/itinerary/:id', async (req, res, next) => {
             item.yelp = [] 
         })
 
-    
+    console.log(item)
     res.render('pages/view', { item })
 })
 

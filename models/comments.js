@@ -3,12 +3,15 @@ const Schema = mongoose.Schema
 
 
 const commentSchema = new Schema({
-    name: String,
+    author: 
+        {
+        type: Schema.Types.ObjectId, ref: 'User' 
+        },
     date: String,
     comment: {
         type: String,
         require: [true, 'requires entry']
-    }
+    },
 
 })
 
