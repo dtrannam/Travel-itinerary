@@ -1,15 +1,28 @@
 <% layout('layout/boilerplate') %>
 
 <body>
+    <% if(error && error.length) {%>
+        <div class="alert alert-danger" role="alert">
+            <%= error %>
+        </div>
+    <% } %>
+
+    <% if(failure && failure.length) {%>
+        <div class="alert alert-danger" role="alert">
+            <%= failure %>
+        </div>
+    <% } %>
+
     <form action="/user/login" method="POST">
         <h2>Login Page</h2>
         <div class="form-group">
-            <label for="login">username</label>
-            <input type="text" name="login" id="login">
+            <label for="username">username</label>
+            <input type="text" name="username" id="username">
             <label for="password">password</label>
             <input type="text" name='password'>
             <input type="submit">
         </div>
     </form>
+    <a href="/user/new">Create an account</a>
 
 </body>

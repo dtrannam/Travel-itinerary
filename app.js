@@ -65,9 +65,21 @@ app.use(flash());
 
 // Middleware that will add any success flash key to the local so we don't have to do it per route.
 app.use((req, res, next) => {
+    res.locals.currentUser = req.user
     res.locals.success = req.flash('success')
     res.locals.failure = req.flash('failure')
+    res.locals.error = req.flash('error')
     next();
+})
+
+// Middlware used to redirect a user towards logging in for certain task
+const isLogin = ((req, res, next) => {
+    if(!req.isAuthenticated()) {
+        req.session.oldURL = req.originalUrl 
+        req.flash('failure', 'Login or Create an account')
+        return res.redirect('/user/login')
+    }
+    next()
 })
 
 // API Connection + Fetch
@@ -84,11 +96,11 @@ app.get('/', (req, res) => {
 
 
 // Create 
-app.get('/itinerary/create', (req, res) =>{
+app.get('/itinerary/create', isLogin, (req, res) => {    
     res.render('pages/create')
 })
 
-app.post('/itinerary/create', async (req, res) => {
+app.post('/itinerary/create', isLogin, async (req, res) => {
     try {
         const newItem = new itinerary(
             {
@@ -118,7 +130,7 @@ app.post('/itinerary/create', async (req, res) => {
     }
 })
 
-app.post('/itinerary/:id/comment/new', async (req, res, next) => {
+app.post('/itinerary/:id/comment/new', isLogin, async (req, res, next) => {
     // Data handlers
     const { id } = req.params
     const {person, response } = req.body
@@ -254,7 +266,12 @@ app.post('/user/new', async (req, res, next) => {
         console.log(createdUser, password)
         const registerUser = await user.register(createdUser, password)
         req.flash('success', `Account creation completed, welcome ${login}`)
-        res.redirect('/itinerary') 
+        req.login(registerUser, err => {
+            if(err) {
+                return next(err)
+            } else
+                res.redirect('/itinerary') 
+        }) 
     } catch (err) {
         next(err)
     }
@@ -267,11 +284,21 @@ app.get('/user/login', async (req, res, next) => {
     res.render("pages/user/login")
 })
 
-app.post('/user/login', (req, res) => {
-    res.send(req.body)
+app.post('/user/login', passport.authenticate('local', {failureFlash: 'Invalid username or password.', failureRedirect: '/user/login'}), (req, res) => {
+    const {username} = req.body
+    req.flash('success', `Welcome back ${username}!`)
+    if (req.session.oldURL) {
+        return res.redirect(req.session.oldURL)
+    } else {
+    res.redirect('/itinerary')
+    }
 })
 
-
+app.get('/user/logout', (req, res, next) => {
+    req.logout()
+    req.flash('success', 'Log out successful')
+    res.redirect('/itinerary')
+}) 
 
 /// Set Up and Error Handling
 
