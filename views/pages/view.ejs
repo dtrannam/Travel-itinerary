@@ -26,12 +26,16 @@
     </ul>
     <section class='buttons'>
     <button class="btn btn-success mb-2"><a id='return' href="/itinerary">Return</a></button>
+
+
+    <% if (currentUser && String(item.author._id) == String(currentUser._id)) { %>
     <form action="/itinerary/<%= item.id%>?_method=DELETE" method="POST">
         <button class="btn btn-danger mb-2">Delete</button>
     </form>
     <form action="/itinerary/<%= item.id%>/edit" method='PUT'>
-        <button  class="btn btn-primary mb-2" >Update</button>
+        <button  class="btn btn-primary mb-2" >Edit</button>
     </form>
+    <% } %> 
     </section>
     
     <% if (item.yelp) { %>

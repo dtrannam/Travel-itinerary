@@ -165,6 +165,7 @@ app.post('/itinerary/:id/comment/new', isLogin, async (req, res, next) => {
     
 
 })
+
 // Show one item 
 app.get('/itinerary/:id', async (req, res, next) => {
     const { id } = req.params;
@@ -181,6 +182,7 @@ app.get('/itinerary/:id', async (req, res, next) => {
             select: 'username'
             }
     }).populate('author')
+
     // Throw error if id is not found
     if (!item) {
         return next(new AppError('Product not Found', 400));
@@ -205,8 +207,6 @@ app.get('/itinerary/:id', async (req, res, next) => {
             // prevent rendering of yelp option 
             item.yelp = [] 
         })
-
-    console.log(item)
     res.render('pages/view', { item })
 })
 
