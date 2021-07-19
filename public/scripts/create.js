@@ -44,7 +44,7 @@ form.addEventListener('submit', function(e) {
     document.getElementsByName('items').forEach(element => itemArr.push(element.value));
     info['items'] = itemArr
     console.log(info)
-    fetch('/create', {
+    fetch('/itinerary/create', {
         method: 'POST',
         body: JSON.stringify(info),
         headers: { 'Content-Type': 'application/json'}
@@ -54,6 +54,6 @@ form.addEventListener('submit', function(e) {
         window.location.href = `/itinerary/${data}`
     }).catch(e => 
         {
-            console.alert('errors')
+            console.log('errors')
         })
 })

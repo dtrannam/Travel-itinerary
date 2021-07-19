@@ -9,12 +9,20 @@
 </head>
 <body>
     <h1>ALL ITEM</h1>
+
+    <% if(success && success.length) {%>
+        <div class="alert alert-success" role="alert">
+            <%= success %>
+        </div>
+    <% } %>
+
     <div class="format">
     <% for(let itinerary of allItinerary) { %>
     <span class="card" style="width: 18rem;">
         <img class="card-img-top" src="/img/sample1.jpg" alt="Card image cap" width='200' height='200'>
         <div class="card-body">
         <h5 class="card-title"><%= itinerary.title %></h5>
+        <p class="card-text"><%= itinerary.location %></p>
         <p class="card-text"><%= itinerary.description %></p>
         <p class="card-text">Days: <%= itinerary.days %></p>
         <a href="/itinerary/<%=itinerary._id%>" class="btn btn-primary">View Details</a>  
