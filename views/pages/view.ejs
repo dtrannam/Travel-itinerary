@@ -13,6 +13,20 @@
 </head>
 <body>
     <h1><%= item.title %> </h1>
+
+    <% if(success && success.length) {%>
+        <div class="alert alert-success" role="alert">
+            <%= success %>
+        </div>
+    <% } %>
+
+    <% if(failure && failure.length) {%>
+        <div class="alert alert-danger" role="alert">
+            <%= failure %>
+        </div>
+    <% } %>
+
+    
     <section>
         <p> Description: <%= item.description %></p>
         <p> Days: <%= item.days %></p>
@@ -60,15 +74,22 @@
     <h2>Comments</h2>
     <ul class="list-group list-group-flush">
     <% for(let response of item.comments) { %>
+
         <li class="list-group-item ">
             <%= response.comment %> by <%= response.author.username %> on <%= response.date %>
+            <% if (currentUser && String(response.author._id) == String(currentUser._id)) { %>
+                <form action="/itinerary/<%= item.id%>/comment/<%= response._id %>?_method=DELETE" method="POST">
+                <input type="submit" value="Delete" class="btn btn-danger">
+                </form>
+            <% } %>
         </li>
+
     <% } %>
     </ul>
     <% } %>
 
     <% if (currentUser) { %>
-    <form action="/itinerary/<%= item.id%>/comment/new" method="POST" >
+    <form action="/itinerary/<%= item.id%>/comment/" method="POST" >
         <div class="form-group">
             <label for="response">Comment</label>
             <input class="form-control" type="text" id='name' name='response'>    
@@ -76,6 +97,8 @@
       <input type="submit" value='submit' class="btn btn-primary">
     </form>
 
+    <% } else { %>
+        Login to leave a comment
     <% } %>
 </body>
 </html>

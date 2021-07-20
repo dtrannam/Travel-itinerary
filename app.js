@@ -92,6 +92,14 @@ const isAuthor = async (req, res, next) => {
     next();
 }
 
+const isCommenter = async (req, res, next) => {
+    const {id, commentid} = req.params
+    const item = await comment.findById(commentid)
+    if (!req.user || String(item.author._id) != String(req.user._id)) {
+        req.flash('failure', 'You do not have access')
+        return res.redirect('/itinerary/id')}
+    next();
+}
 
 // API Connection + Fetch
 const fetch = require("node-fetch");
@@ -142,7 +150,7 @@ app.post('/itinerary/create', isLogin, async (req, res) => {
     }
 })
 
-app.post('/itinerary/:id/comment/new', isLogin, async (req, res, next) => {
+app.post('/itinerary/:id/comment/', isLogin, async (req, res, next) => {
     // Data handlers
     const { id } = req.params
     const {person, response } = req.body
@@ -172,8 +180,8 @@ app.post('/itinerary/:id/comment/new', isLogin, async (req, res, next) => {
     let saveComment = await newComment.save()
     item.comments.push(saveComment)
     await item.save()
+    req.flash('success', 'Comments has been added!')
     res.redirect(`/itinerary/${id}`)
-    
 
 })
 
@@ -241,6 +249,18 @@ app.delete('/itinerary/:id', isAuthor, async (req, res) => {
     } catch (err) {
         next(err)
     }
+})
+
+app.delete('/itinerary/:id/comment/:commentid', isCommenter, async (req, res, next) => {
+    // I need to delete the comment reference in itineary as well.
+    const {id, commentid} = req.params
+    try {
+        const remove = await comment.findByIdAndDelete(commentid);
+        return res.redirect(`/itinerary/${id}`)
+    } catch {
+        next(err)
+    }
+
 })
 
 
