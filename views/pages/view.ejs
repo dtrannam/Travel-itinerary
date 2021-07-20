@@ -13,24 +13,43 @@
 </head>
 <body>
     <h1><%= item.title %> </h1>
+
+    <% if(success && success.length) {%>
+        <div class="alert alert-success" role="alert">
+            <%= success %>
+        </div>
+    <% } %>
+
+    <% if(failure && failure.length) {%>
+        <div class="alert alert-danger" role="alert">
+            <%= failure %>
+        </div>
+    <% } %>
+
+    
     <section>
         <p> Description: <%= item.description %></p>
         <p> Days: <%= item.days %></p>
         <p> Location: <%= item.location %></p>
+        <p> Created by <%= item.author.username %></p>
     </section>
     <ul>
         <% for(let itinerary of item.items) { %>
-        <li> <%=  itinerary %> </li>
+        <li> <%= itinerary %> </li>
         <% } %> 
     </ul>
     <section class='buttons'>
     <button class="btn btn-success mb-2"><a id='return' href="/itinerary">Return</a></button>
+
+
+    <% if (currentUser && String(item.author._id) == String(currentUser._id)) { %>
     <form action="/itinerary/<%= item.id%>?_method=DELETE" method="POST">
         <button class="btn btn-danger mb-2">Delete</button>
     </form>
     <form action="/itinerary/<%= item.id%>/edit" method='PUT'>
-        <button  class="btn btn-primary mb-2" >Update</button>
+        <button  class="btn btn-primary mb-2" >Edit</button>
     </form>
+    <% } %> 
     </section>
     
     <% if (item.yelp) { %>
@@ -55,23 +74,31 @@
     <h2>Comments</h2>
     <ul class="list-group list-group-flush">
     <% for(let response of item.comments) { %>
+
         <li class="list-group-item ">
-            <%= response.comment %> by <%= response.name %> on <%= response.date %>
+            <%= response.comment %> by <%= response.author.username %> on <%= response.date %>
+            <% if (currentUser && String(response.author._id) == String(currentUser._id)) { %>
+                <form action="/itinerary/<%= item.id%>/comment/<%= response._id %>?_method=DELETE" method="POST">
+                <input type="submit" value="Delete" class="btn btn-danger">
+                </form>
+            <% } %>
         </li>
+
     <% } %>
     </ul>
     <% } %>
 
-    <form action="/itinerary/<%= item.id%>/comment/new" method="POST" >
-        <div class="form-group">
-            <label for="person">Name</label>
-            <input class="form-control" type="text" id='person' name='person'>    
-        </div>
+    <% if (currentUser) { %>
+    <form action="/itinerary/<%= item.id%>/comment/" method="POST" >
         <div class="form-group">
             <label for="response">Comment</label>
             <input class="form-control" type="text" id='name' name='response'>    
         </div>
       <input type="submit" value='submit' class="btn btn-primary">
     </form>
+
+    <% } else { %>
+        Login to leave a comment
+    <% } %>
 </body>
 </html>

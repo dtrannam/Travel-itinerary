@@ -82,6 +82,25 @@ const isLogin = ((req, res, next) => {
     next()
 })
 
+// Middleware used to prevent Postman actions for deleting and updating
+const isAuthor = async (req, res, next) => {
+    const { id } = req.params
+    const item = await itinerary.findById(id)
+    if (!req.user || String(item.author._id) != String(req.user._id)) {
+        req.flash('failure', 'You do not have access')
+        return res.redirect('/itinerary')}
+    next();
+}
+
+const isCommenter = async (req, res, next) => {
+    const {id, commentid} = req.params
+    const item = await comment.findById(commentid)
+    if (!req.user || String(item.author._id) != String(req.user._id)) {
+        req.flash('failure', 'You do not have access')
+        return res.redirect('/itinerary/id')}
+    next();
+}
+
 // API Connection + Fetch
 const fetch = require("node-fetch");
 const apiKey = 'fDJa1LEqLJHwrrXtbFXRwE3jEzeJcq4IwxflP-8hBEL84cPgqvY3UJJQD9mkaoso7cqlDWqmkKAK-BpuelZ12X-vda2b_4kjJIR2tb7J_69lB572MORnyp-5VGDVYHYx'
@@ -110,7 +129,8 @@ app.post('/itinerary/create', isLogin, async (req, res) => {
                 traveler: req.body.traveler,
                 theme: req.body.theme,
                 days:req.body.days,
-                items: req.body.items
+                items: req.body.items,
+                author: req.user._id
             }
         )
         await newItem.save(
@@ -130,13 +150,12 @@ app.post('/itinerary/create', isLogin, async (req, res) => {
     }
 })
 
-app.post('/itinerary/:id/comment/new', isLogin, async (req, res, next) => {
+app.post('/itinerary/:id/comment/', isLogin, async (req, res, next) => {
     // Data handlers
     const { id } = req.params
     const {person, response } = req.body
     const current = new Date()
     const date = `${current.getFullYear()}-${current.getMonth()}-${current.getDate()}`
-    console.log(id, person, response, date)
 
     // Throw error if id is not valid 
 
@@ -155,15 +174,17 @@ app.post('/itinerary/:id/comment/new', isLogin, async (req, res, next) => {
     const newComment = new comment({
         name: person,
         date: date,
-        comment: response
+        comment: response,
+        author: req.user._id
     })
     let saveComment = await newComment.save()
     item.comments.push(saveComment)
     await item.save()
+    req.flash('success', 'Comments has been added!')
     res.redirect(`/itinerary/${id}`)
-    
 
 })
+
 // Show one item 
 app.get('/itinerary/:id', async (req, res, next) => {
     const { id } = req.params;
@@ -174,7 +195,13 @@ app.get('/itinerary/:id', async (req, res, next) => {
         return next(new AppError('Invalid Id', 400));
     }
 
-    let item = await itinerary.findById(id).populate('comments')
+    let item = await itinerary.findById(id).populate({
+        path: 'comments', populate: {
+            path: 'author',
+            select: 'username'
+            }
+    }).populate('author')
+
     // Throw error if id is not found
     if (!item) {
         return next(new AppError('Product not Found', 400));
@@ -199,8 +226,6 @@ app.get('/itinerary/:id', async (req, res, next) => {
             // prevent rendering of yelp option 
             item.yelp = [] 
         })
-
-    
     res.render('pages/view', { item })
 })
 
@@ -214,16 +239,25 @@ app.get('/itinerary', async (req, res) => {
     }
 })
 
-
-
 // Delete Item
 
-app.delete('/itinerary/:id', async (req, res) => {
+app.delete('/itinerary/:id', isAuthor, async (req, res) => {
     try {
         const { id } = req.params
         const remove = await itinerary.findByIdAndDelete(id);
-        res.redirect('pages/itinerary')
+        return res.redirect('/itinerary')
     } catch (err) {
+        next(err)
+    }
+})
+
+app.delete('/itinerary/:id/comment/:commentid', isCommenter, async (req, res, next) => {
+    // I need to delete the comment reference in itineary as well.
+    const {id, commentid} = req.params
+    try {
+        const remove = await comment.findByIdAndDelete(commentid);
+        return res.redirect(`/itinerary/${id}`)
+    } catch {
         next(err)
     }
 
@@ -231,11 +265,11 @@ app.delete('/itinerary/:id', async (req, res) => {
 
 
 // Update
-app.get('/itinerary/:id/edit', async (req,res) => {
+app.get('/itinerary/:id/edit', isAuthor, async (req,res, next) => {
     try {
         const { id } = req.params
         const item = await itinerary.findById(id)
-        res.render('pages/edit', { item })
+        return res.render('pages/edit', { item })
     } catch(err) {
         next(err)
     }

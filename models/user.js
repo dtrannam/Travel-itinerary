@@ -10,6 +10,7 @@ const userSchema = new Schema({
         unqiue: true,
         required: [true, "Username required"]
     },
+    saved: Array
 })
 
 
