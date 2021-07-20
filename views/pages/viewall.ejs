@@ -16,6 +16,12 @@
         </div>
     <% } %>
 
+    <% if(failure && failure.length) {%>
+        <div class="alert alert-danger" role="alert">
+            <%= failure %>
+        </div>
+    <% } %>
+
     <div class="format">
     <% for(let itinerary of allItinerary) { %>
     <span class="card" style="width: 18rem;">

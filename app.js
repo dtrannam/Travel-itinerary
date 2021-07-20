@@ -82,6 +82,17 @@ const isLogin = ((req, res, next) => {
     next()
 })
 
+// Middleware used to prevent Postman actions for deleting and updating
+const isAuthor = async (req, res, next) => {
+    const { id } = req.params
+    const item = await itinerary.findById(id)
+    if (!req.user || String(item.author._id) != String(req.user._id)) {
+        req.flash('failure', 'You do not have access')
+        return res.redirect('/itinerary')}
+    next();
+}
+
+
 // API Connection + Fetch
 const fetch = require("node-fetch");
 const apiKey = 'fDJa1LEqLJHwrrXtbFXRwE3jEzeJcq4IwxflP-8hBEL84cPgqvY3UJJQD9mkaoso7cqlDWqmkKAK-BpuelZ12X-vda2b_4kjJIR2tb7J_69lB572MORnyp-5VGDVYHYx'
@@ -220,28 +231,25 @@ app.get('/itinerary', async (req, res) => {
     }
 })
 
-
-
 // Delete Item
 
-app.delete('/itinerary/:id', async (req, res) => {
+app.delete('/itinerary/:id', isAuthor, async (req, res) => {
     try {
         const { id } = req.params
         const remove = await itinerary.findByIdAndDelete(id);
-        res.redirect('pages/itinerary')
+        return res.redirect('/itinerary')
     } catch (err) {
         next(err)
     }
-
 })
 
 
 // Update
-app.get('/itinerary/:id/edit', async (req,res) => {
+app.get('/itinerary/:id/edit', isAuthor, async (req,res, next) => {
     try {
         const { id } = req.params
         const item = await itinerary.findById(id)
-        res.render('pages/edit', { item })
+        return res.render('pages/edit', { item })
     } catch(err) {
         next(err)
     }
