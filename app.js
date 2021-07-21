@@ -106,6 +106,27 @@ const fetch = require("node-fetch");
 const apiKey = 'fDJa1LEqLJHwrrXtbFXRwE3jEzeJcq4IwxflP-8hBEL84cPgqvY3UJJQD9mkaoso7cqlDWqmkKAK-BpuelZ12X-vda2b_4kjJIR2tb7J_69lB572MORnyp-5VGDVYHYx'
 const url = 'https://api.yelp.com/v3/businesses/search?'
 
+// Image Upload Set up
+const multer  = require('multer')
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+
+cloudinary.config({ 
+    cloud_name: process.env.imgName, 
+    api_key: process.env.imgKey, 
+    api_secret: process.env.imgSecret
+  });
+
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'itinerary',
+    format: ['png', 'jpg', 'jpeg'],
+    public_id: (req, file) => 'computed-filename-using-request',
+  },
+});
+
+const parser = multer({ storage: storage });
 
 
 //Routing 
@@ -119,7 +140,8 @@ app.get('/itinerary/create', isLogin, (req, res) => {
     res.render('pages/create')
 })
 
-app.post('/itinerary/create', isLogin, async (req, res) => {
+app.post('/itinerary/create', isLogin, parser.array('images'), async (req, res) => {
+    return res.send(req.files)
     try {
         const newItem = new itinerary(
             {
