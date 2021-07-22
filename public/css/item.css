@@ -16,3 +16,8 @@ body {
     text-decoration: none;
     color: inherit;
 }
+
+#info {
+    background-color: aqua;
+    margin-top: 10%;
+}
