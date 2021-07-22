@@ -24,36 +24,34 @@ selectedDays.addEventListener('input', () => {
         let br = document.createElement('br')
         informationtable.appendChild(br)
     }  
-    
-    
 })
 
-const form = document.getElementById('newItem')
-form.addEventListener('submit', function(e) {
-    e.preventDefault()
-    var info = {}
-    const formData = new FormData(this)
+// const form = document.getElementById('newItem')
+// form.addEventListener('submit', function(e) {
+//     e.preventDefault()
+//     var info = {}
+//     const formData = new FormData(this)
     
-    // Creates Key:Value Pairs
-    formData.forEach(function(value, key) {
-        info[key] = value
-        console.log(key)
-    })
-    // Seperate function as item is an array and the above method would override each items
-    itemArr = []
-    document.getElementsByName('items').forEach(element => itemArr.push(element.value));
-    info['items'] = itemArr
-    console.log(info)
-    fetch('/itinerary/create', {
-        method: 'POST',
-        body: JSON.stringify(info),
-        headers: { 'Content-Type': 'application/json'}
-    }).then( res => {
-        return res.json()
-    }).then(data => {
-        window.location.href = `/itinerary/${data}`
-    }).catch(e => 
-        {
-            console.log('errors')
-        })
-})
+//     // Creates Key:Value Pairs
+//     formData.forEach(function(value, key) {
+//         info[key] = value
+//         console.log(key)
+//     })
+//     // Seperate function as item is an array and the above method would override each items
+//     itemArr = []
+//     document.getElementsByName('items').forEach(element => itemArr.push(element.value));
+//     info['items'] = itemArr
+//     console.log(info)
+//     fetch('/itinerary/create', {
+//         method: 'POST',
+//         body: JSON.stringify(info),
+//         headers: { 'Content-Type': 'application/json'}
+//     }).then( res => {
+//         return res.json()
+//     }).then(data => {
+//         window.location.href = `/itinerary/${data}`
+//     }).catch(e => 
+//         {
+//             console.log('errors')
+//         })
+// })

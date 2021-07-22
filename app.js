@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 // Express Set Up
 const express = require('express')
 const ejsmate = require('ejs-mate')
@@ -107,9 +109,10 @@ const apiKey = 'fDJa1LEqLJHwrrXtbFXRwE3jEzeJcq4IwxflP-8hBEL84cPgqvY3UJJQD9mkaoso
 const url = 'https://api.yelp.com/v3/businesses/search?'
 
 // Image Upload Set up
+const cloudinary = require('cloudinary').v2
+const { CloudinaryStorage } = require('multer-storage-cloudinary')
 const multer  = require('multer')
-const cloudinary = require('cloudinary').v2;
-const { CloudinaryStorage } = require('multer-storage-cloudinary');
+
 
 cloudinary.config({ 
     cloud_name: process.env.imgName, 
@@ -121,8 +124,7 @@ const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
     folder: 'itinerary',
-    format: ['png', 'jpg', 'jpeg'],
-    public_id: (req, file) => 'computed-filename-using-request',
+    allowedFormats: ['jpeg', 'png', 'jpg'],
   },
 });
 
@@ -140,8 +142,8 @@ app.get('/itinerary/create', isLogin, (req, res) => {
     res.render('pages/create')
 })
 
-app.post('/itinerary/create', isLogin, parser.array('images'), async (req, res) => {
-    return res.send(req.files)
+app.post('/itinerary/create', isLogin, parser.array('images', 5), async (req, res) => {
+    
     try {
         const newItem = new itinerary(
             {
@@ -155,17 +157,18 @@ app.post('/itinerary/create', isLogin, parser.array('images'), async (req, res) 
                 author: req.user._id
             }
         )
+        newItem.images = req.files.map(item => ({url: item.path, filename: item.filename}))
         await newItem.save(
             function(err, item) {
                 if (err) {
                     console.log(err);
-                    res.send('Shits bad yo')
+                    return res.send('Somethign went wrong!')
                 } else {
-                    res.send(newItem._id)                
+                    res.redirect(`/itinerary/${newItem._id}`)    
+                    console.log(newItem, item)            
                 }
             }
         )
-    
     } catch (err) {
     // Error handling if product can't be save
         next(err); 
