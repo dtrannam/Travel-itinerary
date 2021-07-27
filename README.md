@@ -8,17 +8,17 @@ Travel Itinerary web application using Express, Node.JS, MongoDB, and EJS
 * Yelp API
 * Basic Styling 
 * Basic Error Handling
-* Creation of comments 
+* Basic Crud Functionality for comments
 * Implemented Flash 
 * Implemented login process via Passport JS (http://www.passportjs.org/)
+* Implemented picture storage 
+
 ## In the works:
 
-* Implement picture storage somehow
-* Implement google autocomplete on address 
+* Styling 2.0
 * Implement better information on page
 * Update form to include caption, about us, notes, pricing
 * DB update and stricter requirements for mongoose such as required fields
-* Implement delete for comments
 * Implement google autocomplete on address https://developers.google.com/maps/documentation/places/web-service/overview or https://community.algolia.com/places/pricing.html
 * Post request clean up
 * Create Seed Data
