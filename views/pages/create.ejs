@@ -3,7 +3,7 @@
     <div class='row'>
         <h1 class=text-center>Create New items</h1>
         <div class='col-6 offset-3'>   
-             <form action="/itinerary/create" method="POST" id='newItem'>
+             <form action="/itinerary/create" method="POST" id='newItem' enctype="multipart/form-data">
             <!-- User Input -->
                 <div class="mb-3">
                     <label class="form-label" for="title">Title:</label>
@@ -49,6 +49,8 @@
                         <li>Mixed - Why not all of them?</li>
                     </ul>
                 </div>
+                <label class="form-label" for="images">Upload Image(s) to share</label>
+                <input class="form-control-file" type="file" name="images" multiple>
             <label class="form-label" for="days">Amount of day (Up to 7):</label>
             <select class="form-control" name="days" id='days' required>
                 <option value="1">1</option>

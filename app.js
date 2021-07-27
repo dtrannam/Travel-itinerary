@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 // Express Set Up
 const express = require('express')
 const ejsmate = require('ejs-mate')
@@ -106,6 +108,27 @@ const fetch = require("node-fetch");
 const apiKey = 'fDJa1LEqLJHwrrXtbFXRwE3jEzeJcq4IwxflP-8hBEL84cPgqvY3UJJQD9mkaoso7cqlDWqmkKAK-BpuelZ12X-vda2b_4kjJIR2tb7J_69lB572MORnyp-5VGDVYHYx'
 const url = 'https://api.yelp.com/v3/businesses/search?'
 
+// Image Upload Set up
+const cloudinary = require('cloudinary').v2
+const { CloudinaryStorage } = require('multer-storage-cloudinary')
+const multer  = require('multer')
+
+
+cloudinary.config({ 
+    cloud_name: process.env.imgName, 
+    api_key: process.env.imgKey, 
+    api_secret: process.env.imgSecret
+  });
+
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'itinerary',
+    allowedFormats: ['jpeg', 'png', 'jpg'],
+  },
+});
+
+const parser = multer({ storage: storage });
 
 
 //Routing 
@@ -119,7 +142,8 @@ app.get('/itinerary/create', isLogin, (req, res) => {
     res.render('pages/create')
 })
 
-app.post('/itinerary/create', isLogin, async (req, res) => {
+app.post('/itinerary/create', isLogin, parser.array('images', 5), async (req, res) => {
+    
     try {
         const newItem = new itinerary(
             {
@@ -133,17 +157,18 @@ app.post('/itinerary/create', isLogin, async (req, res) => {
                 author: req.user._id
             }
         )
+        newItem.images = req.files.map(item => ({url: item.path, filename: item.filename}))
         await newItem.save(
             function(err, item) {
                 if (err) {
                     console.log(err);
-                    res.send('Shits bad yo')
+                    return res.send('Somethign went wrong!')
                 } else {
-                    res.send(newItem._id)                
+                    res.redirect(`/itinerary/${newItem._id}`)    
+                    console.log(newItem, item)            
                 }
             }
         )
-    
     } catch (err) {
     // Error handling if product can't be save
         next(err); 

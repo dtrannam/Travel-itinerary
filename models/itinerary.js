@@ -11,6 +11,11 @@ const itinerarySchema = new Schema({
     theme: String,
     days: Number,
     items: Array,
+    images: [
+        {
+        url : String, 
+        fileName: String
+    }],
     comments: [
         {
         type: Schema.Types.ObjectId, ref: 'Comment' 

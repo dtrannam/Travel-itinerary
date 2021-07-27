@@ -21,11 +21,19 @@
             <%= failure %>
         </div>
     <% } %>
-
+<img src="" alt="">
     <div class="format">
+        
     <% for(let itinerary of allItinerary) { %>
-    <span class="card" style="width: 18rem;">
-        <img class="card-img-top" src="/img/sample1.jpg" alt="Card image cap" width='200' height='200'>
+    <span class="card" style="width: 25%;">
+            <% if (itinerary.images.length >= 1) {  %>
+
+            <img src=<%= itinerary.images[0].url %> alt="Card image cap" width='100%' height='50%'>
+           
+            <% } else {  %>
+            
+            <img src="/img/sample1.jpg" alt="Card image cap" width='100%' height='200'>
+            <%    }    %>
         <div class="card-body">
         <h5 class="card-title"><%= itinerary.title %></h5>
         <p class="card-text"><%= itinerary.location %></p>
