@@ -14,8 +14,12 @@
                     <input class="form-control" type="text" id="location" name='location' maxlength="15" required>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label" for="description">Enter a short description about this plan:</label>
-                    <textarea aria-label="With textarea" class="form-control" type="text" maxlength="280" name='description' required></textarea>
+                    <label class="form-label" for="description">Enter a short caption about this plan:</label>
+                    <textarea aria-label="With textarea" class="form-control" type="text" maxlength="100" name='short' required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="description">Enter the main description about this plan:</label>
+                    <textarea aria-label="With textarea" class="form-control" type="text" name='description' required></textarea>
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="traveler">Best for</label>
@@ -69,6 +73,10 @@
                 <label class="form-label" for="1">Day 1</label>
                 <input class="form-control" type="text" id='items' name='items' required>
             </section>
+            <div class="mb-3">
+                <label class="form-label" for="description">Optional Notes</label>
+                <textarea aria-label="With textarea" class="form-control" type="text" maxlength="280" name='notes'></textarea>
+            </div>
             <input type="submit" class="btn btn-success">
         </div>
         </form>

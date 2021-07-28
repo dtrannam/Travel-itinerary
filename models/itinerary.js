@@ -9,6 +9,8 @@ const itinerarySchema = new Schema({
     description: String,
     traveler: String,
     theme: String,
+    notes: String,
+    short: String,
     days: Number,
     items: Array,
     images: [

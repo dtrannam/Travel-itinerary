@@ -10,28 +10,28 @@
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/item.css">
-    <!-- Required Core stylesheet -->
-    <link rel="stylesheet" href="node_modules/@glidejs/glide/dist/css/glide.core.min.css">
-
-    <!-- Optional Theme stylesheet -->
-    <link rel="stylesheet" href="node_modules/@glidejs/glide/dist/css/glide.theme.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glider-js@1/glider.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/glider-js@1/glider.min.js"></script>
+    
 </head>
 <body>
     
-<section id='info'><div class="row">
+    <% if(success && success.length) {%>
+        <div class="alert alert-success" role="alert">
+            <%= success %>
+        </div>
+    <% } %>
+
+    <% if(failure && failure.length) {%>
+        <div class="alert alert-danger" role="alert">
+            <%= failure %>
+        </div>
+    <% } %>
+
+<section id='info'>
+    <div class="row">
 
     <div class="col-sm">
-        <% if(success && success.length) {%>
-            <div class="alert alert-success" role="alert">
-                <%= success %>
-            </div>
-        <% } %>
-
-        <% if(failure && failure.length) {%>
-            <div class="alert alert-danger" role="alert">
-                <%= failure %>
-            </div>
-        <% } %>
 
         <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
@@ -51,7 +51,8 @@
               </button>
         </div>
         <p><%= item.description %></p>
-
+        <p><%= item.notes %></p>
+        <p><%= item.short %></p>
     
     </div>
 
@@ -66,53 +67,56 @@
         <p> Recommended amount of days: <%= item.days %></p>
         <p> <%= item.location %></p>
         <p> Created by <%= item.author.username %></p>
-    </div>
-    </div>
-</div></section>
 
-    <section class='buttons'>
-    <button class="btn btn-success mb-2"><a id='return' href="/itinerary">Return</a></button>
-
-
-    <% if (currentUser && String(item.author._id) == String(currentUser._id)) { %>
-    <form action="/itinerary/<%= item.id%>?_method=DELETE" method="POST">
-        <button class="btn btn-danger mb-2">Delete</button>
-    </form>
-    <form action="/itinerary/<%= item.id%>/edit" method='PUT'>
-        <button  class="btn btn-primary mb-2" >Edit</button>
-    </form>
-    <% } %> 
-    
-    </section>
-    
-    <% if (item.yelp) { %>
-    <h2>Popular foods around the area!</h2>
-    <div class="glide multi">
-    <div class="glide__track" data-glide-el="track">
-    <ul class="glide__slides">
-
-    <div class="format">
-    <% for(let food of item.yelp) { %>
-    <li class="glide__slide">
-    <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src=<%= food.image_url %>  width='200' height='200'> alt="Card image cap">
-        <div class="card-body">
-          <h5 class="card-title"><%= food.name %></h5>
-          <p class="card-text">Rating: <%= food.rating %>/5</p>
-          <p class="card-text">Address: <%= food.location.display_address %></p>
-          <p class="card-text">Categories: <%= food.categories[0].alias %></p>
-          <a href=<%= food.url %> class="btn btn-primary">Go Yelp Page!</a>
+    <div class="container buttons">
+        <div class="row align-items-end">
+            <% if (currentUser && String(item.author._id) == String(currentUser._id)) { %>
+            <div class="col-sm">
+                <form action="/itinerary/<%= item.id%>?_method=DELETE" method="POST">
+                    <button class="btn btn-danger mb-2">Delete</button>
+                </form>
+            </div>
+            <div class="col-sm">
+                <form action="/itinerary/<%= item.id%>/edit" method='PUT'>
+                    <button  class="btn btn-primary mb-2" >Edit</button>
+                </form>
+            </div> 
+            <% } %>      
+            <div class="col-sm">
+                <button class="btn btn-success mb-2"><a id='return' href="/itinerary">Return</a></button>
+            </div>   
         </div>
     </div>
-    </li>
+    
+    </div>
+    </div>
+</section>
+
+
+    <% if (item.yelp) { %>
+    <h2>Popular foods around the area!</h2>
+    <div class="glider-contain">
+    <div class="glider">
+        <% for(let food of item.yelp) { %>
+          <div><div class="card" style="width: 18rem;">
+            <img class="card-img-top" src=<%= food.image_url %>  width='200' height='200'>
+            <div class="card-body">
+              <h5 class="card-title"><%= food.name %></h5>
+              <p class="card-text">Rating: <%= food.rating %>/5</p>
+              <p class="card-text">Address: <%= food.location.display_address %></p>
+              <p class="card-text">Categories: <%= food.categories[0].alias %></p>
+              <a href=<%= food.url %> class="btn btn-primary">Go Yelp Page!</a>
+            </div>
+        </div></div>
+        <% } %>
+    </div>
+      
+    <button aria-label="Previous" class="glider-prev">«</button>
+    <button aria-label="Next" class="glider-next">»</button>
+    <div role="tablist" class="dots"></div>
+    </div>
+    
     <% } %>
-    <% } %> 
-    </div>
-
-    </ul>
-    </div> 
-    </div>
-
 
     <% if (item.comments) { %>
     <h2>Comments</h2>
@@ -147,16 +151,7 @@
         Login to leave a comment
     <% } %>
 
-    <div class="glide">
-        <div class="glide__track" data-glide-el="track">
-          <ul class="glide__slides">
-            <li class="glide__slide">0</li>
-            <li class="glide__slide">1</li>
-            <li class="glide__slide">2</li>
-          </ul>
-        </div>
-      </div>
-      <script src="/scripts/view.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/@glidejs/glide"></script>
+    <script src="/scripts/view.js"></script>
+
 </body>
 </html>

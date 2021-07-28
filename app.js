@@ -149,6 +149,8 @@ app.post('/itinerary/create', isLogin, parser.array('images', 5), async (req, re
             {
                 title: req.body.title,
                 location: req.body.location,
+                short: req.body.short,
+                notes: req.body.notes,
                 description: req.body.description,
                 traveler: req.body.traveler,
                 theme: req.body.theme,
