@@ -18,6 +18,28 @@ body {
 }
 
 #info {
-    background-color: aqua;
-    margin-top: 10%;
+    margin-top: 5%;
+}
+
+.picture {
+    width: 640px;
+    height: 360px;
+    border-radius: 5%
+}
+
+h1 {
+    text-align: center;
+    margin: 5%;
+    font-family: 'Dosis', sans-serif;
+    font-size: 100px;
+}
+
+#short {
+    text-align: center;
+    margin-top: 5%;
+}
+
+body {
+    font-family: 'Dosis', sans-serif;
+    font-size: 20px
 }

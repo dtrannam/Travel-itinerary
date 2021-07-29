@@ -11,3 +11,15 @@ body {
 .card {
     margin: 20px
 }
+
+body {
+    font-family: 'Dosis', sans-serif;
+    font-size: 15px
+}
+
+h1 {
+    text-align: center;
+    margin: 5%;
+    font-family: 'Dosis', sans-serif;
+    font-size: 50px;
+}

@@ -1,26 +1,30 @@
 body {
     background-image: url('../img/HomeBackground2.jpg');
     background-size: cover;
-    background-repeat: no-repeat
+    background-repeat: no-repeat;
 }
 
 h1 {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     color: #e0a200;
-    margin-top: 20%;
+    padding-top: 30%;
+    font-family: 'Dosis', sans-serif;
+    font-size: 9000px;
+    font-weight: bold
+}
+
+
+#menu div {
+    padding-top: 5%;
+    text-decoration: none;
+    color: #e0a200;
+}
+
+#menu div a {
+    text-decoration: none;
+    color: #e0a200;
 }
 
 #menu {
     display: flex;
-    justify-content: space-around;
-    color: #2a9d8f;
-    margin-top: 5%;
-}
-
-#menu div {
-    border: #2a9d8f 1px solid;
-    padding: 10px;
-    background-color: #f4a261;
+    flex-direction: column;
 }
