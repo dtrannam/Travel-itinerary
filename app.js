@@ -3,6 +3,7 @@ require('dotenv').config()
 // Express Set Up
 const express = require('express')
 const ejsmate = require('ejs-mate')
+const methodOverride = require('method-override')
 const app = express()
 const path = require('path')
 const AppError = require('./AppError')
@@ -12,7 +13,6 @@ app.use(express.json()) // for parsing application/json
 app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
 // Method Override Set Up
-var methodOverride = require('method-override')
 app.use(methodOverride('_method'))
 
 
@@ -307,9 +307,10 @@ app.put('/itinerary/:id', async(req, res) => {
     try {
         const { id } = req.params
         const updateItem = await itinerary.findByIdAndUpdate(id, {... req.body})
-        res.redirect(`pages/itinerary/${id}`)
+        req.flash('success', 'Update Successful')
+        res.redirect(`/itinerary/${id}`)
     } catch(err) {
-        next(err)
+        return next(new AppError('Update Failed', 400))
     }
 })
 

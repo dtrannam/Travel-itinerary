@@ -1,5 +1,16 @@
 <% layout('layout/boilerplate') %>
-    <body>
+<head>
+    <link rel="stylesheet" href="/css/user.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glider-js@1/glider.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/glider-js@1/glider.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@500&display=swap" rel="stylesheet">
+</head>
+
+
+<body>
     <div class='row'>
         <h1 class=text-center>Create New items</h1>
         <div class='col-6 offset-3'>   
@@ -75,7 +86,7 @@
             </section>
             <div class="mb-3">
                 <label class="form-label" for="description">Optional Notes</label>
-                <textarea aria-label="With textarea" class="form-control" type="text" maxlength="280" name='notes'></textarea>
+                <input aria-label="With textarea" class="form-control" type="text" maxlength="280" name='notes'></input>
             </div>
             <input type="submit" class="btn btn-success">
         </div>

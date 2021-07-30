@@ -1,4 +1,14 @@
 <% layout('layout/boilerplate') %>
+<head>
+    <link rel="stylesheet" href="/css/user.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glider-js@1/glider.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/glider-js@1/glider.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@500&display=swap" rel="stylesheet">
+</head>
+
 
 <body>
     <h1>Edit <%= item.title %></h1>
@@ -13,7 +23,11 @@
             <input class="form-control" type="text" id="location" name='location' maxlength="15" value='<%= item.location %>'>
         </div>
         <div class="mb-3">
-            <label for="description">Enter a short description about this plan:</label>
+            <label class="form-label" for="description">Enter a short caption about this plan:</label>
+            <textarea aria-label="With textarea" class="form-control" type="text" maxlength="100" name='short' required><%= item.short%></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="description">Enter a description about this plan:</label>
             <textarea class="form-control" type="text" maxlength="280" name='description'><%= item.description%></textarea>
         </div>
 
@@ -66,17 +80,27 @@
             </select>
         </div>
         <h2 class='mb-3'>Current Information:</h2>
+        <ul>
+
+        </ul>
         <% item.items.forEach(element => { %>
-             <%= element %>
+            <li><%= element %></li>
         <br> 
         <% }) %>
+        </ul>
         <br>
+
+        <div class="mb-3">
+            <label class="form-label" for="description">Optional Notes</label>
+            <input aria-label="With textarea" class="form-control" type="text" maxlength="280" name='notes'></input>
+        </div>
 
         <h2 class='mb-3'>New Information:</h2>
         <section id='daysinput'>
             <label class="form-label"for="1">Day 1</label>
             <input class="form-control" type="text" id='items' name='items'>
         </section>
+    <input type="submit" class="btn btn-success mb-2">
     </form>
     </section>
     <a href="/itinerary/<%= item._id %>" class='btn btn-success mb-2'>Return</a>
