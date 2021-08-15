@@ -19,9 +19,10 @@ Travel Itinerary web application using Express, Node.JS, MongoDB, and EJS
 
 ## In the works:
 
-* Allow uploading of more images - setting a limit on amount of images and deleting images option
-* DB update and stricter requirements for mongoose such as required fields
-* AWS Deployment
+* Allow adding/deleting of images
+* DB Adjustments: Need to clean up comments, item deletions, etc.
+* Better viewing page
+* AWS Deployment 
 * Post request clean up
 * Create Seed Data
 * Design page set up
