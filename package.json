@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/dtrannam/idea2#readme",
   "dependencies": {
+    "@glidejs/glide": "^3.4.1",
     "bcrypt": "^5.0.1",
     "cloudinary": "^1.26.2",
     "connect-flash": "^0.1.1",

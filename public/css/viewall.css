@@ -1,6 +1,3 @@
-body {
-    background-color: rgb(244, 240, 219);
-}
 
 .format {
     display: flex;
@@ -10,4 +7,18 @@ body {
 
 .card {
     margin: 20px
+}
+
+body {
+    font-family: 'Dosis', sans-serif;
+    font-size: 15px;
+    background-image: url('../img/ViewAll.jpg'); 
+    background-size: 100%;
+}
+
+h1 {
+    text-align: center;
+    margin: 5%;
+    font-family: 'Dosis', sans-serif;
+    font-size: 50px;
 }

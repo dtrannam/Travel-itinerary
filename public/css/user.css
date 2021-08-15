@@ -1,0 +1,14 @@
+body {
+    font-family: 'Dosis', sans-serif;
+    font-size: 15px;
+    background-color: rgb(244, 240, 219);
+}
+
+h2 {
+    text-align: center;
+    margin-top: 10%;
+}
+
+main {
+    margin-bottom: 10%;
+}

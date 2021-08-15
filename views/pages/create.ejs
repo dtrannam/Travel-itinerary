@@ -1,5 +1,14 @@
 <% layout('layout/boilerplate') %>
-    <body>
+<head>
+    <link rel="stylesheet" href="/css/user.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@500&display=swap" rel="stylesheet">
+</head>
+
+
+<body>
     <div class='row'>
         <h1 class=text-center>Create New items</h1>
         <div class='col-6 offset-3'>   
@@ -14,8 +23,12 @@
                     <input class="form-control" type="text" id="location" name='location' maxlength="15" required>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label" for="description">Enter a short description about this plan:</label>
-                    <textarea aria-label="With textarea" class="form-control" type="text" maxlength="280" name='description' required></textarea>
+                    <label class="form-label" for="description">Enter a short caption about this plan:</label>
+                    <textarea aria-label="With textarea" class="form-control" type="text" maxlength="100" name='short' required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="description">Enter the main description about this plan:</label>
+                    <textarea aria-label="With textarea" class="form-control" type="text" name='description' required></textarea>
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="traveler">Best for</label>
@@ -69,6 +82,10 @@
                 <label class="form-label" for="1">Day 1</label>
                 <input class="form-control" type="text" id='items' name='items' required>
             </section>
+            <div class="mb-3">
+                <label class="form-label" for="description">Optional Notes</label>
+                <input aria-label="With textarea" class="form-control" type="text" maxlength="280" name='notes'></input>
+            </div>
             <input type="submit" class="btn btn-success">
         </div>
         </form>

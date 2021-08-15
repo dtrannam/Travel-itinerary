@@ -3,6 +3,7 @@ require('dotenv').config()
 // Express Set Up
 const express = require('express')
 const ejsmate = require('ejs-mate')
+const methodOverride = require('method-override')
 const app = express()
 const path = require('path')
 const AppError = require('./AppError')
@@ -12,7 +13,6 @@ app.use(express.json()) // for parsing application/json
 app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
 // Method Override Set Up
-var methodOverride = require('method-override')
 app.use(methodOverride('_method'))
 
 
@@ -136,6 +136,9 @@ app.get('/', (req, res) => {
     res.render('pages/home')
 })
 
+app.get('/about', (req, res) => {
+    res.render('pages/about')
+})
 
 // Create 
 app.get('/itinerary/create', isLogin, (req, res) => {    
@@ -149,6 +152,8 @@ app.post('/itinerary/create', isLogin, parser.array('images', 5), async (req, re
             {
                 title: req.body.title,
                 location: req.body.location,
+                short: req.body.short,
+                notes: req.body.notes,
                 description: req.body.description,
                 traveler: req.body.traveler,
                 theme: req.body.theme,
@@ -305,9 +310,10 @@ app.put('/itinerary/:id', async(req, res) => {
     try {
         const { id } = req.params
         const updateItem = await itinerary.findByIdAndUpdate(id, {... req.body})
-        res.redirect(`pages/itinerary/${id}`)
+        req.flash('success', 'Update Successful')
+        res.redirect(`/itinerary/${id}`)
     } catch(err) {
-        next(err)
+        return next(new AppError('Update Failed', 400))
     }
 })
 
@@ -359,6 +365,11 @@ app.get('/user/logout', (req, res, next) => {
     res.redirect('/itinerary')
 }) 
 
+app.get('/user', async (req, res, next) => {
+    const id = req.user._id
+    const items = await itinerary.find({author: id})
+    res.render('pages/user/profile', {items})
+})
 /// Set Up and Error Handling
 
 app.use((req, res) => {

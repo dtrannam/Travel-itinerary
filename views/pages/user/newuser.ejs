@@ -1,14 +1,25 @@
 <% layout('layout/boilerplate') %>
 
+<head>
+    <link rel="stylesheet" href="/css/user.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@500&display=swap" rel="stylesheet">
+</head>
+
 <body>
     <form action="/user/new" method="POST">
-        <h2>Create an Account</h2>
-        <label for="username">Username</label>
-        <input type="text" name="login" id="login">
-        <label for="email">Email</label>
-        <input type="email" name="email" id="email">
-        <label for="password">Password</label>
-        <input type="text" name="password" id="password">
-        <input type="submit">
+        <div class='col-6 offset-3'>
+            <h2>Create an Account</h2>
+            <label class="form-label" for="username">Username</label>
+            <input class="form-control" type="text" name="login" id="login">
+            <label class="form-label" for="email">Email</label>
+            <input class="form-control" type="email" name="email" id="email">
+            <label class="form-label" for="password">Password</label>
+            <input class="form-control" type="text" name="password" id="password">
+            <br>
+            <input class="btn btn-primary" type="submit">
+        </div>
     </form>
 </body>
