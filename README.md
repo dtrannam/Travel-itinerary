@@ -15,11 +15,11 @@ Travel Itinerary web application using Express, Node.JS, MongoDB, and EJS
 * Styling 2.0
 * Implement better information on page
 * Update form to include caption, about us, notes, pricing
+* Create about page/new account information
 
 ## In the works:
 
 * Allow uploading of more images - setting a limit on amount of images and deleting images option
-* Create about page/new account information
 * DB update and stricter requirements for mongoose such as required fields
 * AWS Deployment
 * Post request clean up
