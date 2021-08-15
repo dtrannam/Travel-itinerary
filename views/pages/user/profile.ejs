@@ -1,0 +1,35 @@
+<% layout('layout/boilerplate') %>
+<head>
+    <link rel="stylesheet" href="/css/userHome.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/glider-js@1/glider.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@500&display=swap" rel="stylesheet">
+</head>
+
+    <h2>User Page</h2>
+    <div class='info'>
+        <p>Display Name: <%= currentUser.username %></p>
+        <p>Email: <%= currentUser.email %></p>
+    </div>
+    <h2>Your Created items</h2>
+    <% if (Object.keys(items).length > 1 ) { %>
+    <div class="card-group">
+        <% for (let item of items){ %>
+            <div class="card" style="width: 18rem;">
+                <img src=<%= item.images[0].url %> class="card-img-top">
+                <div class="card-body">
+                  <h5 class="card-title"><%=item.title%></h5>
+                  <p class="card-text"><%=item.short%></p>
+                  <a href="/itinerary/<%=item._id%>" class="btn btn-primary">View</a>
+                </div>
+            </div>
+        <% } %>
+    </div>
+        
+    <% } else { %>
+        <p class="info">You have not created anything.</p>
+    <% } %>
+
+    </div>

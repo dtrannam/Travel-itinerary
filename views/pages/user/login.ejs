@@ -23,14 +23,18 @@
 
     <form action="/user/login" method="POST">
         <h2>Login Page</h2>
-        <div class="form-group">
-            <label for="username">username</label>
-            <input type="text" name="username" id="username">
-            <label for="password">password</label>
-            <input type="text" name='password'>
-            <input type="submit">
+        <div class='col-6 offset-3'>
+            <label for="username" class="form-label">Username</label>
+            <input class="form-control" type="text" name="username" id="username">
+            <label for="password" class="form-label">Password</label>
+            <input class="form-control" type="text" name='password'>
+            <br>
+            <input class="btn btn-primary" type="submit">
+            <br>
+            <br>
+            <a href="/user/new">Create an account</a>
         </div>
     </form>
-    <a href="/user/new">Create an account</a>
+    
 
 </body>

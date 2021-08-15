@@ -137,7 +137,7 @@ app.get('/', (req, res) => {
 })
 
 app.get('/about', (req, res) => {
-    res.send('working')
+    res.render('pages/about')
 })
 
 // Create 
@@ -365,6 +365,11 @@ app.get('/user/logout', (req, res, next) => {
     res.redirect('/itinerary')
 }) 
 
+app.get('/user', async (req, res, next) => {
+    const id = req.user._id
+    const items = await itinerary.find({author: id})
+    res.render('pages/user/profile', {items})
+})
 /// Set Up and Error Handling
 
 app.use((req, res) => {
