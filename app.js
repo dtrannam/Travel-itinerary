@@ -167,7 +167,7 @@ app.post('/itinerary/create', isLogin, parser.array('images', 5), async (req, re
             function(err, item) {
                 if (err) {
                     console.log(err);
-                    return res.send('Somethign went wrong!')
+                    return res.send('Something went wrong!')
                 } else {
                     res.redirect(`/itinerary/${newItem._id}`)    
                     console.log(newItem, item)            
@@ -294,7 +294,7 @@ app.delete('/itinerary/:id/comment/:commentid', isCommenter, async (req, res, ne
 })
 
 
-// Update
+// Update Information
 app.get('/itinerary/:id/edit', isAuthor, async (req,res, next) => {
     try {
         const { id } = req.params
@@ -305,6 +305,33 @@ app.get('/itinerary/:id/edit', isAuthor, async (req,res, next) => {
     }
 
 })
+
+// Update Images
+app.get('/itinerary/:id/edit_photos', isAuthor, async (req, res, next) => {
+    try {
+        const { id } = req.params
+        const item = await itinerary.findById(id)
+        return res.render('pages/editPhotos', { item })
+    } catch(err) {
+        next(err)
+    }    
+})
+
+// Upload more images
+app.put('/itinerary/:id/edit_photos', isAuthor, parser.array('images', 5), async (req, res, next) => {
+    try {
+        const { id } = req.params
+        const updatePhotos = await itinerary.findById(id)
+        const imgArray = req.files.map(item => ({url: item.path, filename: item.filename}))
+        updatePhotos.images.push(...imgArray)
+        await updatePhotos.save()
+        req.flash('success', 'Photos have been added')
+        res.redirect(`/itinerary/${id}`)
+    } catch(err) {
+        next(err)
+    }    
+})
+
 
 app.put('/itinerary/:id', async(req, res) => {
     try {
@@ -365,7 +392,7 @@ app.get('/user/logout', (req, res, next) => {
     res.redirect('/itinerary')
 }) 
 
-app.get('/user', async (req, res, next) => {
+app.get('/user', isLogin, async (req, res, next) => {
     const id = req.user._id
     const items = await itinerary.find({author: id})
     res.render('pages/user/profile', {items})

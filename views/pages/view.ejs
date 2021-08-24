@@ -79,15 +79,20 @@
         <div class="row align-items-end">
             <% if (currentUser && String(item.author._id) == String(currentUser._id)) { %>
             <div class="col-sm">
+                <form action="/itinerary/<%= item.id%>/edit" method='PUT'>
+                    <button  class="btn btn-primary mb-2" >Edit Information</button>
+                </form>
+            </div> 
+            <div class="col-sm">
+                <form action="/itinerary/<%= item.id%>/edit_photos" method='PUT'>
+                    <button class="btn btn btn-info mb-2" >Edit Photos</button>
+                </form>
+            </div>
+            <div class="col-sm">
                 <form action="/itinerary/<%= item.id%>?_method=DELETE" method="POST">
                     <button class="btn btn-danger mb-2">Delete</button>
                 </form>
             </div>
-            <div class="col-sm">
-                <form action="/itinerary/<%= item.id%>/edit" method='PUT'>
-                    <button  class="btn btn-primary mb-2" >Edit</button>
-                </form>
-            </div> 
             <% } %>      
             <div class="col-sm">
                 <button class="btn btn-success mb-2"><a id='return' href="/itinerary">Return</a></button>
