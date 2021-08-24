@@ -18,15 +18,17 @@ Travel Itinerary web application using Express, Node.JS, MongoDB, and EJS
 * Create about page/new account information
 
 ## In the works:
-
 * Allow uploading of more images - setting a limit on amount of images and deleting images option [Working on delete]
 * Delete commment
 * Create button to confirm "delete" information
 * DB update and stricter requirements for mongoose such as required fields
 * AWS Deployment
-* Post request clean up
-* Create Seed Data
-* Design page set up
+=======
+* Allow adding/deleting of images
+* DB Adjustments: Need to clean up comments, item deletions, etc.
+* Better viewing page
+* AWS Deployment 
+
 
 ## Extras:
 * Add a saved feature to the user page 
