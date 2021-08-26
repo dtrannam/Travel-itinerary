@@ -145,7 +145,7 @@ app.get('/itinerary/create', isLogin, (req, res) => {
     res.render('pages/create')
 })
 
-app.post('/itinerary/create', isLogin, parser.array('images', 5), async (req, res) => {
+app.post('/itinerary/create', isLogin, parser.array('images', 5), async (req, res, next) => {
     
     try {
         const newItem = new itinerary(
@@ -162,7 +162,9 @@ app.post('/itinerary/create', isLogin, parser.array('images', 5), async (req, re
                 author: req.user._id
             }
         )
-        newItem.images = req.files.map(item => ({url: item.path, filename: item.filename}))
+        imagesArry = req.files.map(item => ({url: item.path, filename: item.filename}))
+        newItem.images = imagesArry
+        console.log(newItem.images)
         await newItem.save(
             function(err, item) {
                 if (err) {
@@ -269,13 +271,24 @@ app.get('/itinerary', async (req, res) => {
     }
 })
 
-// Delete Item
+// Delete Item 
 
 app.delete('/itinerary/:id', isAuthor, async (req, res) => {
     try {
         const { id } = req.params
-        const remove = await itinerary.findByIdAndDelete(id);
-        return res.redirect('/itinerary')
+        // Delete from Itineary
+    
+        // const remove = await itinerary.findByIdAndDelete(id);
+        const item = await itinerary.findById(id)
+        // Delete from Comments
+        const deleteComments = item.comments   
+        // Delete from images
+        const deleteImgs = item.images
+        
+        // Delete from Itineary
+
+
+        res.send(item.images)
     } catch (err) {
         next(err)
     }
@@ -286,6 +299,8 @@ app.delete('/itinerary/:id/comment/:commentid', isCommenter, async (req, res, ne
     const {id, commentid} = req.params
     try {
         const remove = await comment.findByIdAndDelete(commentid);
+        let item = await itinerary.findById(id)
+        await item.updateOne({$pull: { comments: commentid }})
         return res.redirect(`/itinerary/${id}`)
     } catch {
         next(err)
@@ -330,6 +345,33 @@ app.put('/itinerary/:id/edit_photos', isAuthor, parser.array('images', 5), async
     } catch(err) {
         next(err)
     }    
+})
+
+app.delete('/itinerary/:id/edit_photos', isAuthor, async (req, res, next) => {
+    // Parameter set up
+    const { id } = req.params
+    let deleteImg = req.body.images
+    
+    //  Delete Images from cloudinary - need to determine array as single value 
+    if (Array.isArray(deleteImg)) {
+        for (let filename of deleteImg) {
+            await cloudinary.uploader.destroy(filename)
+            console.log(filename)
+        }
+    } else {
+        await cloudinary.uploader.destroy(deleteImg)
+    }
+
+    // Handles updating the itineary 
+    let item = await itinerary.findById(id)
+    if (!item) {
+        return next(new AppError('Product not Found', 400));
+    }
+    await item.updateOne({$pull: { images: { filename: {$in: deleteImg }}}})
+    item.save()
+
+    req.flash('success', 'The selected photo(s) have been deleted')
+    res.redirect(`/itinerary/${id}`)
 })
 
 
