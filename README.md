@@ -8,19 +8,18 @@ Travel Itinerary web application using Express, Node.JS, MongoDB, and EJS
 * Yelp API
 * Styling 1.0
 * Basic Error Handling
-* Basic Crud Functionality for comments
+* Basic CRD Functionality for comments
 * Implemented Flash 
 * Implemented login process via Passport JS (http://www.passportjs.org/)
-* Implemented picture storage 
+* Implemented and CRUD picture storage 
 * Styling 2.0
 * Implement better information on page
 * Update form to include caption, about us, notes, pricing
 * Create about page/new account information
+* CRUD comment
 
 ## In the works:
-* Allow uploading of more images - setting a limit on amount of images and deleting images option [Working on delete]
-* Delete commment
-* Create button to confirm "delete" information
+* Reworking Backend for cleaner code 
 * DB update and stricter requirements for mongoose such as required fields
 * AWS Deployment
 =======

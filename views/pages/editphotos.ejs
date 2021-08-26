@@ -21,8 +21,8 @@
         <h2>Remove Images</h2>
         <form action="/itinerary/<%= item._id %>/edit_photos/?_method=DELETE" method="POST">
             <% for (let i = 0; i < item.images.length; i++) { %>
-                <img style="height: 200px; width: 200px; padding: 5px" src="<%= item.images[i].url %>">
-                <input type="checkbox" id=<%= item.images[i]._id%> name='images' value=<%= item.images[i].url %>>
+                <img class="img-thumbnail" style="height: 200px; width: 200px; padding: 5px" src="<%= item.images[i].url %>">
+                <input type="checkbox" id=<%= item.images[i]._id%> name='images' value=<%= item.images[i].filename%>>
                 <br>
             <% } %>
         <br>
