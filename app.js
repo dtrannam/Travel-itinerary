@@ -131,7 +131,7 @@ const storage = new CloudinaryStorage({
 const parser = multer({ storage: storage });
 
 
-//Routing 
+//Routing - Completed
 app.get('/', (req, res) => {
     res.render('pages/home')
 })
@@ -140,7 +140,7 @@ app.get('/about', (req, res) => {
     res.render('pages/about')
 })
 
-// Create 
+// Create - Completed 
 app.get('/itinerary/create', isLogin, (req, res) => {    
     res.render('pages/create')
 })
@@ -164,11 +164,11 @@ app.post('/itinerary/create', isLogin, parser.array('images', 5), async (req, re
         )
         imagesArry = req.files.map(item => ({url: item.path, filename: item.filename}))
         newItem.images = imagesArry
-        console.log(newItem.images)
+        console.log(newItem.images) // DEBUGGING
         await newItem.save(
             function(err, item) {
                 if (err) {
-                    console.log(err);
+                    console.log(err); // DEBUGGING
                     return res.send('Something went wrong!')
                 } else {
                     res.redirect(`/itinerary/${newItem._id}`)    
@@ -178,7 +178,7 @@ app.post('/itinerary/create', isLogin, parser.array('images', 5), async (req, re
         )
     } catch (err) {
     // Error handling if product can't be save
-        next(err); 
+        next(err);  
     }
 })
 
@@ -217,7 +217,7 @@ app.post('/itinerary/:id/comment/', isLogin, async (req, res, next) => {
 
 })
 
-// Show one item 
+// Show one item - Completed
 app.get('/itinerary/:id', async (req, res, next) => {
     const { id } = req.params;
 
@@ -261,7 +261,7 @@ app.get('/itinerary/:id', async (req, res, next) => {
     res.render('pages/view', { item })
 })
 
-// Show all
+// Show all - Completed 
 app.get('/itinerary', async (req, res) => {
     try {
     const allItinerary = await itinerary.find({})
@@ -276,19 +276,31 @@ app.get('/itinerary', async (req, res) => {
 app.delete('/itinerary/:id', isAuthor, async (req, res) => {
     try {
         const { id } = req.params
-        // Delete from Itineary
-    
-        // const remove = await itinerary.findByIdAndDelete(id);
         const item = await itinerary.findById(id)
+
+
         // Delete from Comments
-        const deleteComments = item.comments   
+        const deleteCommentsID = item.comments   
+        await comment.deleteMany({_id: {
+            $in: deleteCommentsID
+        }})
+
         // Delete from images
-        const deleteImgs = item.images
-        
+        const deleteImgsID = item.images
+        if (Array.isArray(deleteImgsID)) {
+            for (let img of deleteImgsID) {
+                await cloudinary.uploader.destroy(img.filename)
+                console.log(img.filename)
+            }
+        } else {
+            await cloudinary.uploader.destroy(deleteImgsID.filename)
+        }
+
         // Delete from Itineary
+        await itinerary.findByIdAndDelete(id)
 
 
-        res.send(item.images)
+        res.redirect('/itinerary')
     } catch (err) {
         next(err)
     }
