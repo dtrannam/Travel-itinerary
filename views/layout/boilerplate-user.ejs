@@ -2,24 +2,21 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Home Page</title>
-        <meta name="description" content="">
+        <title>Travel-Itinerary</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="css/home.css" type="text/css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+          <link rel="stylesheet" href="/css/user.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@700&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@500&display=swap" rel="stylesheet">
+    
     </head>
-    <body>
-        <div class="container">
-            <section id='menu'>
-                <h1 id='title'>Itinerary App</h1>
-                <div><a href="/itinerary/create">PLAN</a></div>
-                <div><a href="/itinerary">EXPLORE</a></div>
-                <div><a href="/about">ABOUT</a></div>
-            </section>
-        </div>
+    <body class='d-flex flex-column vh-100'>
+        <%- include('../partials/navbar') %> 
+        <main class=container>
+            <%- body %> 
+        </main>
+        <%- include('../partials/footer') %> 
     </body>
 </html>

@@ -1,16 +1,9 @@
-<% layout('layout/boilerplate') %>
-<head>
-    <link rel="stylesheet" href="/css/user.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/glider-js@1/glider.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@500&display=swap" rel="stylesheet">
-</head>
+<% layout('layout/boilerplate-user') %>
 
+<!-- FINISHED  --> 
 
 <body>
-    <h1>Edit <%= item.title %></h1>
+    <h2>Edit <%= item.title %></h2>
     <section>
     <form action="/itinerary/<%= item._id %>?_method=PUT" method="POST">
         <div class="mb-3">
@@ -102,7 +95,7 @@
     <input type="submit" class="btn btn-success mb-2">
     </form>
     </section>
-    <a href="/itinerary/<%= item._id %>" class='btn btn-success mb-2'>Return</a>
+    <a href="/itinerary/<%= item._id %>" class='btn btn-info mb-2'>Return</a>
     <form action="/itinerary/<%= item.id%>?_method=DELETE" method="POST">
         <button class="btn btn-danger mb-2">Delete</button>
     </form>
