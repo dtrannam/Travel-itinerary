@@ -17,9 +17,9 @@ Travel Itinerary web application using Express, Node.JS, MongoDB, and EJS
 * Update form to include caption, about us, notes, pricing
 * Create about page/new account information
 * CRUD comment
+* Rework of html rendering
 
 ## In the works:
-* Reworking Backend for cleaner code 
 * DB update and stricter requirements for mongoose such as required fields
 * AWS Deployment
 
