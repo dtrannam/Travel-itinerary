@@ -18,16 +18,11 @@ Travel Itinerary web application using Express, Node.JS, MongoDB, and EJS
 * Create about page/new account information
 * CRUD comment
 * Rework of html rendering
+* DB update and stricter requirements for mongoose such as required fields
+* Slight security implementation
 
 ## In the works:
-* DB update and stricter requirements for mongoose such as required fields
-* AWS Deployment
-
-=======
-* Allow adding/deleting of images
-* DB Adjustments: Need to clean up comments, item deletions, etc.
-* Better viewing page
-* AWS Deployment 
+* Deployment
 
 
 ## Extras:

@@ -7,6 +7,16 @@ const methodOverride = require('method-override')
 const app = express()
 const path = require('path')
 const AppError = require('./AppError')
+const dbURL = process.env.DB_URL
+
+// Express Santize Set up + Helmet
+const mongoSanitize = require('express-mongo-sanitize');
+app.use(mongoSanitize());
+const helmet = require("helmet");
+app.use(helmet({
+    contentSecurityPolicy: false
+}));
+
 
 // Data parsing 
 app.use(express.json()) // for parsing application/json
@@ -14,6 +24,7 @@ app.use(express.urlencoded({ extended: true })) // for parsing application/x-www
 
 // Method Override Set Up
 app.use(methodOverride('_method'))
+
 
 
 // EJS Set Up
@@ -27,7 +38,7 @@ app.use(express.static('public'));
 // Mongoose Set Up
 const mongoose = require('mongoose');
 const ObjectID = require('mongodb').ObjectID;
-mongoose.connect('mongodb://localhost:27017/itinerary', 
+mongoose.connect(dbURL, 
     {useNewUrlParser: true, useUnifiedTopology: true    
 })
 const itinerary = require('./models/itinerary');
@@ -44,12 +55,22 @@ db.once('open', () => {
 });
 
 // Passport/Session/Flash Set up
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
 
-const session = require('express-session')
 app.use(session({
-    secret: 'test',
+    store: MongoStore.create({
+        mongoUrl: dbURL,
+        touchAfter: 24 * 60 * 60
+    }),
+    name: 'Session',
+    secret: process.env.sesSecret,
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,
+        expires: Date.now() + 1000 * 60 * 60 * 24 * 3,
+    }
 }))
 
 const User = require('./models/user')
@@ -104,8 +125,8 @@ const isCommenter = async (req, res, next) => {
 }
 
 // API Connection + Fetch
-const fetch = require("node-fetch");
-const apiKey = 'fDJa1LEqLJHwrrXtbFXRwE3jEzeJcq4IwxflP-8hBEL84cPgqvY3UJJQD9mkaoso7cqlDWqmkKAK-BpuelZ12X-vda2b_4kjJIR2tb7J_69lB572MORnyp-5VGDVYHYx'
+const fetch = require("node-fetch")
+const apiKey = process.env.yelpKey
 const url = 'https://api.yelp.com/v3/businesses/search?'
 
 // Image Upload Set up
@@ -146,7 +167,6 @@ app.get('/itinerary/create', isLogin, (req, res) => {
 })
 
 app.post('/itinerary/create', isLogin, parser.array('images', 5), async (req, res, next) => {
-    
     try {
         const newItem = new itinerary(
             {
@@ -164,15 +184,12 @@ app.post('/itinerary/create', isLogin, parser.array('images', 5), async (req, re
         )
         imagesArry = req.files.map(item => ({url: item.path, filename: item.filename}))
         newItem.images = imagesArry
-        console.log(newItem.images) // DEBUGGING
         await newItem.save(
             function(err, item) {
                 if (err) {
-                    console.log(err); // DEBUGGING
                     return res.send('Something went wrong!')
                 } else {
-                    res.redirect(`/itinerary/${newItem._id}`)    
-                    console.log(newItem, item)            
+                    res.redirect(`/itinerary/${newItem._id}`)             
                 }
             }
         )
@@ -290,7 +307,6 @@ app.delete('/itinerary/:id', isAuthor, async (req, res) => {
         if (Array.isArray(deleteImgsID)) {
             for (let img of deleteImgsID) {
                 await cloudinary.uploader.destroy(img.filename)
-                console.log(img.filename)
             }
         } else {
             await cloudinary.uploader.destroy(deleteImgsID.filename)
@@ -368,7 +384,6 @@ app.delete('/itinerary/:id/edit_photos', isAuthor, async (req, res, next) => {
     if (Array.isArray(deleteImg)) {
         for (let filename of deleteImg) {
             await cloudinary.uploader.destroy(filename)
-            console.log(filename)
         }
     } else {
         await cloudinary.uploader.destroy(deleteImg)
@@ -409,7 +424,6 @@ app.post('/user/new', async (req, res, next) => {
     try {
         const {login, email, password} = req.body
         const createdUser = new user({email, username: login})
-        console.log(createdUser, password)
         const registerUser = await user.register(createdUser, password)
         req.flash('success', `Account creation completed, welcome ${login}`)
         req.login(registerUser, err => {
